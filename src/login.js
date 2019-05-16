@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Bootstrap from "react-bootstrap";
+import Facebook from './components/Facebook';
 
 import "./Login.css"
 
@@ -43,11 +44,13 @@ export default class Login extends Component {
 		    <Form.Control type="password" placeholder="Password" />
 		  </Form.Group>
 		  <Form.Group controlId="formBasicChecbox">
-		    <Form.Check type="checkbox" label="Check me out" />
+		    <Form.Check type="checkbox" label="Stay Logged In" />
 		  </Form.Group>
 		  <Button variant="primary" type="submit">
 		    Submit
 		  </Button>
+ 
+
 		</Form>
 		);
 	}
