@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import Login from './login';
-import Facebook from './components/Facebook';
+import Login from './components/Login/login';
+import Facebook from './components/Login/Facebook';
 
 
 export default class index extends Component {
