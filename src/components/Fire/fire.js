@@ -9,7 +9,9 @@ const firebaseConfig = {
   projectId: "pocketchef-7e363",
   storageBucket: "pocketchef-7e363.appspot.com",
   messagingSenderId: "452219660387",
+  appId: "1:452219660387:web:ba350989e96eff5b"
 };
+
 
 const fire = firebase.initializeApp(firebaseConfig);
 export default fire;
