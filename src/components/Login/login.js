@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import fire from "../Fire/fire";
 import signup from "../Signup/signup";
+import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
+import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, NavLink  } from 'reactstrap';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.loginWithFirebase = this.loginWithFirebase.bind(this);
     this.changingInput = this.changingInput.bind(this);
-    this.signupWithFirebase = this.signupWithFirebase.bind(this);
+    this.goToFirebase = this.goToFirebase.bind(this);
 
     this.state = {
       email: "",
@@ -33,13 +34,9 @@ export default class Login extends Component {
       });
   }
 
-  signupWithFirebase(current) {
-    current.preventDefault();
-    fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-    }).then((u)=>{console.log(u)})
-    .catch((error) => {
-        console.log(error);
-      })
+  goToFirebase(current) {
+    let path = `/signup`;
+    this.props.history.push(path);
   }
 
   render() {
@@ -82,10 +79,10 @@ export default class Login extends Component {
           >
             Login
           </button>
-          <button onClick={this.signupWithFirebase} style={{marginLeft: '25px'}} className="btn btn-success">Signup</button>
+          <Button onClick={this.goToSignUp} style={{marginLeft: '25px'}} className="btn btn-success">Signup</Button>
         </form>
       </div>
-      //
     );
   }
 }
+
