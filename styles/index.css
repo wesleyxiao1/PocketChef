@@ -5,6 +5,9 @@ body{
 
 }
 .navigationbar {
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -29,5 +32,13 @@ body{
   }
   
   .active {
-    background-color: #4CAF50;
+    background-color: rgb(9, 196, 34);
+  }
+
+  #search{
+      width: 1000px;
+  }
+  #searchLogo{
+      height: 10px;
+      width: 10px;
   }
