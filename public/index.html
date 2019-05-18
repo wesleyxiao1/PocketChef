@@ -19,11 +19,17 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <link rel = "stylesheet" type = "text/css" href = "../styles/index.css"/>
+    <title>PocketChef</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <ul class = "navigationbar">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#news">Pantry</a></li>
+        <li><a href="#contact">Profile</a></li>
+        <li style="float:right"><a class="active" href="#signin">Sign In</a></li>
+    </ul>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
