@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 import fire from "../Fire/fire";
 import signup from "../Signup/signup";
 import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, NavLink  } from 'reactstrap';
+import Signup from "../Signup/signup";
 
 export default class Login extends Component {
   constructor(props) {
@@ -24,6 +26,7 @@ export default class Login extends Component {
   }
 
   loginWithFirebase(current) {
+
     current.preventDefault();
     fire
       .auth()
@@ -39,9 +42,13 @@ export default class Login extends Component {
     this.props.history.push(path);
   }
 
+  goToSignUp(current){
+    ReactDOM.render(<Signup/>, document.getElementById("signIn"))
+  }
+
   render() {
     return (
-      <div className="col-md-6">
+      <div id="signIn" className="col-md-6">
         <h1 className="app-name">Pocket Chef</h1>
         <h3>Login Page</h3>
         <form>
