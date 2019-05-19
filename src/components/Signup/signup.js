@@ -8,13 +8,20 @@ import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, I
 export default class Signup extends Component {
 
     constructor(props){
-    super(props);
+        super(props);
+        this.changingInput = this.changingInput.bind(this);
+        this.signupWithFirebase = this.signupWithFirebase.bind(this);
+        
         this.state = {
             email: '',
             password: ''
         }
     }
-/*
+
+    changingInput(current) {
+        this.setState({ [current.target.name]: current.target.value });
+    }
+
     signupWithFirebase(current) {
         current.preventDefault();
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
@@ -23,7 +30,7 @@ export default class Signup extends Component {
             console.log(error);
           })
     }
-*/
+
 
 
     render() {
