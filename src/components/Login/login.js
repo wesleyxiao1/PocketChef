@@ -43,7 +43,7 @@ export default class Login extends Component {
   }
 
   goToSignUp(current){
-    ReactDOM.render(<Signup/>, document.getElementById("signIn"))
+    ReactDOM.render(<Signup/>, document.getElementById("signIn"));
   }
 
   render() {
