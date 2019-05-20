@@ -4,11 +4,51 @@ html {
     background: -webkit-gradient(left top, left bottom, color-stop(40%, rgba(40,173,230,1)), color-stop(41%, rgba(40,173,230,1)), color-stop(93%, rgba(82,196,235,1)), color-stop(100%, rgba(82,196,235,1)));
 
 }
+.navigationbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;  
+  }
 
+  #nav {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
 
+  #nav:hover:not(.active) {
+    background-color: #111;
+  }
+
+#userNameArea{
+    height: 100px;
+    width: 500px;
+}
 .userName {
+    position: fixed;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%, -50%);
 
+}
 
+#profilePicArea{
+    height: 300px;
+    width: 500px;
+}
+
+.profilePic{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); 
 }
 
 #profileContainer{
@@ -16,5 +56,38 @@ html {
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
     border: 0px solid #000000;
-    background:white
+    background:white;
+    height: 500px;
+    width: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
+#prof {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+
+  }
+
+  ul{
+ 
+  }
+
+  .profileBar {
+    border-radius: 0px 0px 10px 10px;
+    -moz-border-radius: 0px 0px 10px 10px;
+    -webkit-border-radius: 0px 0px 10px 10px;  
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:white;
+  }
+
+  #prof:hover:not(.active) {
+    background-color: rgb(190, 190, 190);
+  }

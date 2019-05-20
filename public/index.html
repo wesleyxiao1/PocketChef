@@ -19,25 +19,84 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <link rel = "stylesheet" type = "text/css" href = "../styles/index.css"/>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
     <title>PocketChef</title>
   </head>
   <body>
     <div id="root">
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <ul class = "navigationbar">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#news">Pantry</a></li>
-        <li><a href="#contact">Profile</a></li>
-        <li style="float:right"><a class="active" href="#signin">Sign In</a></li>
-    </ul>
+    <!-- navigation bar -->
+    <div>
+      <ul class = "navigationbar">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#pantry">Pantry</a></li>
+          <li><a href="#contact">Profile</a></li>
+
+          <!-- login button -->
+          <li style="float:right" ><button onclick="document.getElementById('id01').style.display='block'" id="login">Login</button></li>
+      </ul>
+          <div id="id01" class="modal">
+            
+            <form class="modal-content animate" action="/action_page.php">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <img src="../images/corgi.png" alt="Avatar" class="avatar">
+              </div>
+          
+              <div class="container">
+                <label for="uname"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="uname" id="login-input"required>
+          
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" id="login-input" required>
+                  
+                <button type="submit" id="login">Login</button>
+                <label>
+                  <input type="checkbox" checked="checked" name="remember"> Remember me
+                </label>
+              </div>
+          
+              <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                <span class="psw"><a href="#">Forgot password?</a></span>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
     </div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+
+
+    <!-- search bar 
+    <div class="searchBar">
+      <div>
+        <form action="/action_page.php" id="searchForm">
+          <input type="text" placeholder="Search Recipe" id="search">
+          <button type="submit"><img id="searchLogo" src="../images/search.png"></button>
+        </form>
+      </div>
+    </div> -->
+
+    <div class="search-box">
+      <input type="text" name="" class="search-txt" placeholder="Search Recipes"/>
+      <a class="search-btn" href="#"><i class="fas fa-search"></i></a>
+    </div>
+
+
+
+    <script>
+      // Get the modal
+      var modal = document.getElementById('id01');
+      
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+    </script>
+
   </body>
 </html>
