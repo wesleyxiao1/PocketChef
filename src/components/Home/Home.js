@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import fire from '../Fire/fire';
 import Nav from '../Navbar/navbar';
-import '../../styles/index.css'
+import '../../styles/home.css';
 
 export default class Home extends Component {
 
@@ -27,15 +27,14 @@ export default class Home extends Component {
               <li><a href="#pantry">Pantry</a></li>
               <li><a href="#contact">Profile</a></li>
               {/* login button */}
-              <li style={{float: 'right'}}><button onclick="document.getElementById('id01').style.display='block'" id="login">Login</button></li>
+              <li style={{float: 'right'}}><button type="LogOut" onClick={this.logoutFirebase} class="LoginButton" id="login">LogOut</button></li>
             </ul>
-
-
+          </div>
         <div className="search-box">
           <input type="text" name className="search-txt" placeholder="Search Recipes" />
           <a className="search-btn" href="#"><i className="fas fa-search" /></a>
         </div>
-      </div>
+
 
         {/*TODO Put these buttons in a navbar, make it look nice*/}
         {/* <ul>
@@ -44,11 +43,9 @@ export default class Home extends Component {
           <li><button id="recipes" onClick={this.goToRecipes}>Recipes</button></li>
           <li><button id="favorites" onClick={this.goToFavorites}>Favorites</button></li>
           <li><button id="profile" onClick={this.goToProfile}>Profile</button></li>
-        </ul> */}
-        <Nav/>
-        <div className="form-group">
-            <button type="LogOut" onClick={this.logoutFirebase} class="LoginButton">LogOut</button>
-          </div>
+        </ul> 
+        <Nav/>*/}
+      
       </div>
     )
   }
