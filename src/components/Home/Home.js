@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom';
 import fire from '../Fire/fire';
 import Nav from '../Navbar/navbar';
 import '../../styles/home.css';
-
+import Pantry from '../Pantry/pantry';
 export default class Home extends Component {
 
   constructor(props){
     super(props);
     this.logoutFirebase = this.logoutFirebase.bind(this);
   }
-
+  goToPantry(current){
+    ReactDOM.render(<Pantry/>, document.getElementById("root"));
+  }
   logoutFirebase()
   {
       fire.auth().signOut();
@@ -24,7 +26,7 @@ export default class Home extends Component {
           <div>
             <ul className="navigationbar">
               <li><a href="#home">Home</a></li>
-              <li><a href="#pantry">Pantry</a></li>
+              <li><a onClick={this.goToPantry} href="#pantry">Pantry</a></li>
               <li><a href="#contact">Profile</a></li>
               {/* login button */}
               <li style={{float: 'right'}}><button type="LogOut" onClick={this.logoutFirebase} class="LoginButton" id="login">LogOut</button></li>
