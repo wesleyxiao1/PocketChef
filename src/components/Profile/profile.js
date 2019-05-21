@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import fire from '../Fire/fire';
 import Nav from '../Navbar/navbar';
-import '../../styles/user.css';
+import '../../styles/profile.css';
 
 export default class Profile extends Component {
 

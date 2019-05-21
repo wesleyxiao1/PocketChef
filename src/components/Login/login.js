@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-d
 import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, NavLink  } from 'reactstrap';
 import Signup from "../Signup/signup";
 import './Login.css';
-import '../../styles/index.css';
+import '../../styles/home.css';
 
 export default class Login extends Component {
   constructor(props) {
