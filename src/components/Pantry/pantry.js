@@ -18,9 +18,14 @@ export default class Pantry extends Component{
     }
 
     onDocumentUpdate = (documentSnapshot) => {
-        //TODO: Handle empty pantry
         let favorites = documentSnapshot.get('pantry');
-        this.setState({favorites});
+        console.log(favorites);
+        if (typeof favorites === "undefined" || favorites.length == 0){
+            let favorites = ["no pantry items"];
+            this.setState({favorites});
+        }else{
+            this.setState({favorites});
+        }
     }
 
     componentDidMount(){
