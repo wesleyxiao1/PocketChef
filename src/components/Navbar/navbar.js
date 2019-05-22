@@ -4,43 +4,35 @@ import Recipes from '../Recipes/recipes';
 import Favorites from '../Favorites/favorites';
 import Profile from '../Profile/profile';
 import ReactDOM from 'react-dom';
+import routes from "../Routes/routes";
 import React, {Component} from 'react';
+import {
+    Route,
+    Link,
+    BrowserRouter as Router,
+    Switch
+  } from "react-router-dom";
 //navbar shared between every screen except login/signup
 
-export default class Nav extends Component{
+class Nav extends Component{
 
-
-    goToPantry(current){
-        ReactDOM.render(<Pantry/>, document.getElementById("root"));
-    }
-    goToList(current){
-        ReactDOM.render(<List/>, document.getElementById("root"));
-    }
-    goToRecipes(current){
-        ReactDOM.render(<Recipes/>, document.getElementById("root"));
-    }
-    goToFavorites(current){
-        ReactDOM.render(<Favorites/>, document.getElementById("root"));
-    }
-    goToProfile(current){
-        ReactDOM.render(<Profile/>, document.getElementById("root"));
-    }
-    render(){
-        return(
+    render = () => (
+        <div>
             <nav>
-                <div className="navWide">
-                    <div className="wideDiv">
-                        <a onClick={this.goToPantry}>Pantry</a>
-                        <a onClick={this.goToList}>List</a>
-                        <a onClick={this.goToRecipes}>Recipes</a>
-                        <a onClick={this.goToFavorites}>Favorites</a>
-                        <a onClick={this.goToProfile}>Profile</a>
-                    </div>
-
-                </div>
+                <Link to="/">Home</Link>
+                <Link to="/pantry">Pantry</Link>
+                <Link to="/list">List</Link>
+                <Link to="/recipes">Recipes</Link>
+                <Link to="/favorites">Favorites!!</Link>
+                <Link to="/profile">Profile</Link>
+                <Link to="/login">Login</Link>                
             </nav>
-        )
-    }
-
-
+            <div>
+                {routes}
+            </div>
+        </div>
+    );
 }
+export default Nav
+
+
