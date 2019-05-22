@@ -7,6 +7,7 @@ import Navbar from '../Navbar/navbar'
 import Home from '../Home/Home';
 import Header from '../Header/header'
 import Footer from '../Footer/footer'
+import Routes from '../Routes/routes'
 import fire from '../Fire/fire';
 import routes from "../Routes/routes";
 import './app.css'
@@ -40,8 +41,8 @@ export default class App extends Component {
     render() {
         return (
                 <div className="App">
-                    <Header className="app-header"></Header>
-                    <Footer className="app-footer"/>
+                    <Header/>
+                    <Routes></Routes>
                 </div>
         )
     }

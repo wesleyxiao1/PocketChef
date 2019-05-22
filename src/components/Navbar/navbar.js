@@ -4,7 +4,7 @@ import Recipes from '../Recipes/recipes';
 import Favorites from '../Favorites/favorites';
 import Profile from '../Profile/profile';
 import ReactDOM from 'react-dom';
-import routes from "../Routes/routes";
+import Routes from "../Routes/routes";
 import React, {Component} from 'react';
 import {
     Route,
@@ -18,6 +18,7 @@ class Nav extends Component{
 
     render = () => (
         <div>
+     
             <nav>
                 <Link to="/">Home</Link>
                 <Link to="/pantry">Pantry</Link>
@@ -27,9 +28,6 @@ class Nav extends Component{
                 <Link to="/profile">Profile</Link>
                 <Link to="/login">Login</Link>                
             </nav>
-            <div>
-                {routes}
-            </div>
         </div>
     );
 }

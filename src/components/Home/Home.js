@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import fire from '../Fire/fire';
+import Header from '../Header/header'
+import Footer from '../Footer/footer'
 import Nav from '../Navbar/navbar';
 import '../../styles/home.css';
 
@@ -19,6 +21,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="Home">
+      
         <h2>Home</h2>
           {/* navigation bar */}
 
