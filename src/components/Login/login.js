@@ -36,6 +36,7 @@ export default class Login extends Component {
       .then(u => {})
       .catch(error => {
         console.log(error);
+        alert("Invalid username/password! Please try again.");
       });
   }
 
