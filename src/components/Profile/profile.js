@@ -15,6 +15,7 @@ export default class Profile extends Component {
     return (
 
         <div id="profileContainer">
+            <Nav/>
             <div id="userNameArea">
             <h1 className="userName">User Name</h1>
             </div>

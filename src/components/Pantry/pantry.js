@@ -1,32 +1,51 @@
 import fire from '../Fire/fire';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+
 export default class Pantry extends Component{
 
     constructor(props){
         super(props);
         this.db = fire.firestore();
-        //hardcoded to my account for testing, will have to get user email later
-        var favorites = this.db.collection('users').doc('nraguila.test@ucsd.edu');
-        var items = favorites.get().then(doc => {
-            if(!doc.exists){
-                console.log("no doc");
-            }
-            else{
-                let arr = doc.getString("test");
-                ReactDOM.render(arr, document.getElementById("main"));
-            }
-        }).catch(err => {
-            console.log("err", err);
-        });
+        //need to get user email and pass into the reference below
+        this.email = fire.auth().currentUser.email;
+        this.docRef = fire.firestore().collection('users').doc(this.email);
+        this.docUnsub = null;
+
+        this.state = {
+            favorites: [],
+            pantry: []
+        };
     }
 
+    onDocumentUpdate = (documentSnapshot) => {
+        let favorites = documentSnapshot.get('pantry');
+        
+        //if the favorites field in the DB doesnt exist, or has no entries
+        if (typeof favorites === "undefined" || favorites.length == 0){
+            let favorites = ["no pantry items"];
+            this.setState({favorites});
+        }else{
+            this.setState({favorites});
+        }
+    }
+
+    componentDidMount(){
+        this.docUnsub = this.docRef.onSnapshot(this.onDocumentUpdate);
+    }
     render(){
         return(
             <div id="main">
                 Pantry
+                <h1>
+                    {this.state.favorites.map(fav => 
+                        <tr>
+                            <td>{fav}</td>
+                        </tr>
+                        )}
+                </h1>
             </div>
-        )
+        );
     }
 
 
