@@ -37,6 +37,7 @@ export default class Login extends Component {
       }).catch(error => {
         this.setState({loggedInCheck: false })
         console.log(error);
+        alert("Invalid username/password! Please try again.");
       });
   }
 
