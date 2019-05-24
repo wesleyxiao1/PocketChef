@@ -5,47 +5,32 @@ import Favorites from '../Favorites/favorites';
 import Profile from '../Profile/profile';
 import Home from '../Home/Home'
 import ReactDOM from 'react-dom';
+import Routes from "../Routes/routes";
 import React, {Component} from 'react';
+import {
+    Route,
+    Link,
+    BrowserRouter as Router,
+    Switch
+  } from "react-router-dom";
 //navbar shared between every screen except login/signup
 
-export default class Nav extends Component{
+class Nav extends Component{
 
-
-    goToPantry(current){
-        ReactDOM.render(<Pantry/>, document.getElementById("root"));
-    }
-    goToList(current){
-        ReactDOM.render(<List/>, document.getElementById("root"));
-    }
-    goToRecipes(current){
-        ReactDOM.render(<Recipes/>, document.getElementById("root"));
-    }
-    goToFavorites(current){
-        ReactDOM.render(<Favorites/>, document.getElementById("root"));
-    }
-    goToProfile(current){
-        ReactDOM.render(<Profile/>, document.getElementById("root"));
-    }
-    goToHome(current){
-        ReactDOM.render(<Home/>, document.getElementById("root"));
-    }
-
-    render(){
-        return(
-            <div>
-            <ul className="navigationbar">
-              <li><a onClick={this.goToHome} href="#home">Home</a></li>
-              <li><a onClick={this.goToPantry} href="#pantry">Pantry</a></li>
-              <li><a onClick={this.goToRecipes} href="#recipes">Recipes</a></li>
-              <li><a onClick={this.goToFavorites} href="#favorites">Favorites</a></li>
-              <li><a onClick={this.goToProfile} href="#contact">Profile</a></li>
-              
-              {/* login button */}
-              <li style={{float: 'right'}}><button type="LogOut" onClick={this.logoutFirebase} class="LoginButton" id="login">LogOut</button></li>
-            </ul>
-          </div>
-        )
-    }
-
-
+    render = () => (
+        <div>
+            <nav>
+                <Link to="/">Home</Link>
+                <Link to="/pantry">Pantry</Link>
+                <Link to="/list">List</Link>
+                <Link to="/recipes">Recipes</Link>
+                <Link to="/favorites">Favorites!!</Link>
+                <Link to="/profile">Profile</Link>
+                <Link to="/login">Login</Link>                
+            </nav>
+        </div>
+    );
 }
+export default Nav
+
+

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import fire from '../Fire/fire';
+import Header from '../Header/header'
+import Footer from '../Footer/footer'
 import Nav from '../Navbar/navbar';
 import '../../styles/home.css';
 import Pantry from '../Pantry/pantry';
@@ -20,12 +23,20 @@ export default class Home extends Component {
   render() {
     return (
       <div className="Home">
-        <Nav/>
-        <title>PocketChef</title>
-        <div className="search-box">
-          <input type="text" name className="search-txt" placeholder="Search Recipes" />
-          <a className="search-btn" href="#"><i className="fas fa-search" /></a>
-        </div>
+        <h2>Home</h2>
+          {/* navigation bar */}
+
+
+
+        {/*TODO Put these buttons in a navbar, make it look nice*/}
+        {/* <ul>
+          <li><button id="pantry" onClick={this.goToPantry}>Pantry</button></li>
+          <li><button id="list" onclick={this.goToList}>List</button></li>
+          <li><button id="recipes" onClick={this.goToRecipes}>Recipes</button></li>
+          <li><button id="favorites" onClick={this.goToFavorites}>Favorites</button></li>
+          <li><button id="profile" onClick={this.goToProfile}>Profile</button></li>
+        </ul> 
+        <Nav/>*/}
       
       </div>
     )

@@ -17,7 +17,8 @@ export default class Login extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      loggedInCheck: false
     };
 
 
@@ -30,12 +31,13 @@ export default class Login extends Component {
   loginWithFirebase(current) {
 
     current.preventDefault();
-    fire
-      .auth()
+    fire.auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(u => {})
-      .catch(error => {
+      .then(u => { this.setState({loggedInCheck: true })
+      }).catch(error => {
+        this.setState({loggedInCheck: false })
         console.log(error);
+        alert("Invalid username/password! Please try again.");
       });
   }
 
@@ -53,6 +55,10 @@ export default class Login extends Component {
       <div id="profileContainer">
 
       <div id="signIn" className="col-md-6">
+        if ( {this.state.loggedInCheck == false }) {
+          <div className="alartMessage" role="alart">Please Enter A Valid Email/Password</div>
+          
+        }
         <h1 className="app-name">Pocket Chef</h1>
 
         <form className="modal-content animate" action="/action_page.php">
@@ -129,4 +135,3 @@ export default class Login extends Component {
     );
   }
 }
-
