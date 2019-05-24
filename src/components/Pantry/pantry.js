@@ -1,7 +1,6 @@
 import fire from '../Fire/fire';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Nav from '../Navbar/navbar'
 
 export default class Pantry extends Component{
 
@@ -37,7 +36,6 @@ export default class Pantry extends Component{
     render(){
         return(
             <div id="main">
-            <Nav/>
                 Pantry
                 <h1>
                     {this.state.favorites.map(fav => 
