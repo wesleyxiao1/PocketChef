@@ -1,6 +1,8 @@
 import fire from '../Fire/fire';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import Nav from '../Navbar/navbar'
+
 export default class Pantry extends Component{
 
     constructor(props){
@@ -19,7 +21,8 @@ export default class Pantry extends Component{
 
     onDocumentUpdate = (documentSnapshot) => {
         let favorites = documentSnapshot.get('pantry');
-        console.log(favorites);
+        
+        //if the favorites field in the DB doesnt exist, or has no entries
         if (typeof favorites === "undefined" || favorites.length == 0){
             let favorites = ["no pantry items"];
             this.setState({favorites});
@@ -32,9 +35,9 @@ export default class Pantry extends Component{
         this.docUnsub = this.docRef.onSnapshot(this.onDocumentUpdate);
     }
     render(){
-
         return(
             <div id="main">
+            <Nav/>
                 Pantry
                 <h1>
                     {this.state.favorites.map(fav => 
