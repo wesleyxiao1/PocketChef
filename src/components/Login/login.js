@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import fire from "../Fire/fire";
-import signup from "../Signup/signup";
 import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, NavLink  } from 'reactstrap';
 import Signup from "../Signup/signup";
@@ -17,7 +16,8 @@ export default class Login extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      loggedInCheck: ""
     };
 
 
@@ -30,12 +30,13 @@ export default class Login extends Component {
   loginWithFirebase(current) {
 
     current.preventDefault();
-    fire
-      .auth()
+    fire.auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(u => {})
-      .catch(error => {
+      .then(u => { this.setState({loggedInCheck: "true" })
+      }).catch(error => { 
+        this.setState({loggedInCheck: "false" })
         console.log(error);
+        //alert("Invalid username/password! Please try again.");
       });
   }
 
@@ -61,6 +62,8 @@ export default class Login extends Component {
         </div>
         <div className="container">
           {/* input for username and password */}
+          
+          {this.state.loggedInCheck == "false"? <loginError/>:<loginError/> }
           <label htmlFor="uname"><b>Username</b></label>
           <input type="email" placeholder="Enter Username" name="email" id="login-input" value={this.state.email} onChange={this.changingInput} required />
           <label htmlFor="psw"><b>Password</b></label>
@@ -69,6 +72,7 @@ export default class Login extends Component {
             <input type="checkbox" defaultChecked="checked" name="remember" /> Remember me 
             <br></br>
           </label>
+          
           
           {/* log In and signup buttons */}
           <button
@@ -86,44 +90,7 @@ export default class Login extends Component {
         </div>
       </form>
 
-{/*
-        <form>
-          <div class="form-group">
-            <label for="InputEmail">Email address </label>
-            <input
-              value={this.state.email}
-              onChange={this.changingInput}
-              type="email"
-              name="email"
-              class="form-control"
-              id="InputEmail"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
-            />
-            <br />
-          </div>
-          <div class="form-group">
-            <label for="InputPassword">Password </label>
-            <input
-              value={this.state.password}
-              onChange={this.changingInput}
-              type="password"
-              name="password"
-              class="form-control"
-              id="InputPassword"
-              placeholder="Password"
-            />
-            <br />
-          </div>
-          <button
-            type="submit"
-            onClick={this.loginWithFirebase}
-            class="btn btn-primary"
-          >
-            Login
-          </button>
-          <Button onClick={this.goToSignUp} style={{marginLeft: '25px'}} className="btn btn-success">Signup</Button>
-</form>*/}
+
       </div>
       </div>
     );
