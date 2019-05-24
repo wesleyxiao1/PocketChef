@@ -39,10 +39,11 @@ export default class App extends Component {
     }
 
     render() {
-        return (
+        return (          
                 <div className="App">
-                    <Header/>
+                    { this.state.user ? (<Header/>) : '' }
                     <Routes></Routes>
+                    <Footer/>
                 </div>
         )
     }

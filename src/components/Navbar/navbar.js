@@ -18,7 +18,6 @@ class Nav extends Component{
 
     render = () => (
         <div>
-     
             <nav>
                 <Link to="/">Home</Link>
                 <Link to="/pantry">Pantry</Link>

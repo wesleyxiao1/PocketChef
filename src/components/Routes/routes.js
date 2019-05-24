@@ -57,8 +57,8 @@ class Routes extends Component {
               component={Home}
               authenticated={authenticated}
             />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
             <Route path="/list" component={List} />
             <Route path="/recipes" component={Recipes} />
             <Route path="/favorites" component={Favorites} />
