@@ -1,33 +1,14 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import fire from '../Fire/fire';
-import Nav from '../Navbar/navbar';
-import '../../styles/profile.css';
+import React from 'react';
 
-export default class Profile extends Component {
+import { withAuthorization } from '../Session';
 
-  constructor(props){
-    super(props);
+const Profile = () => (
+  <div>
+    <h1>Profile Page</h1>
+    <p>The Profile Page is accessible by every signed in user.</p>
+  </div>
+);
 
-  }
+const condition = authUser => !!authUser;
 
-  render() {
-    return (
-
-        <div id="profileContainer">
-            <Nav/>
-            <div id="userNameArea">
-            <h1 className="userName">User Name</h1>
-            </div>
-                <div id="profilePicArea">
-                <img className="profilePic" src={ require('../../images/corgi.png') } height="300px" width="300px" />
-            </div>
-            <ul className="profileBar">
-                <li><a id="prof" href="#settings">Settings</a></li>
-                <li><a id="prof" href="#contact">Contact Support</a></li>
-                <li><a id="prof" href="#logout" style={{color:'red'}}>Logout</a></li>
-            </ul>
-        </div>
-    )
-}
-}
+export default withAuthorization(condition)(Profile);

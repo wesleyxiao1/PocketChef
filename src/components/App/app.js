@@ -1,77 +1,40 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import ReactDOM from 'react-dom'
-import Login from '../Login/login';
-import Navbar from '../Navbar/navbar'
-import Home from '../Home/Home';
-import Header from '../Header/header'
-import Footer from '../Footer/footer'
-import Routes from '../Routes/routes'
-import fire from '../Fire/fire';
-import routes from "../Routes/routes";
-import './app.css'
+import Navbar from '../Navbar/navbar';
+import LandingPage from '../Landing/landing';
+import SignUpPage from '../Signup/signup';
+import SignInPage from '../Login/login';
+import PasswordForgetPage from '../PasswordForget/passwordforget';
+import Pantry from '../Pantry/pantry';
+import HomePage from '../Home/Home';
+import AccountPage from '../Account/account';
+import AdminPage from '../Admin/admin';
 
-export default class App extends Component {
-    constructor(props){
-        super(props);
-        
-        this.state = {
-            user:{},
-        }
-    }
+import * as ROUTES from '../../constants/routes';
+import { withAuthentication } from '../Session';
 
-    componentDidMount(){
-        this.authenticatorListener();
-    }
+const App = () => (
+  <Router>
+    <div>
+      <Navbar />
 
-    authenticatorListener(){
-        fire.auth().onAuthStateChanged((user) => {
-            if(user){
-                this.setState({user});
-                localStorage.setItem('user',user.uid);
-            }
-            else{
-                this.setState( {user: null});
-                localStorage.removeItem('user');
-            }
-        })
-    }
+      <hr />
 
-    render() {
-        return (          
-                <div className="App">
-                    { this.state.user ? (<Header/>) : '' }
-                    <Routes></Routes>
-                    <Footer/>
-                </div>
-        )
-    }
-}
+      <Route exact path={ROUTES.LANDING} component={LandingPage} />
+      <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
+      <Route exact path={ROUTES.LOGIN} component={SignInPage} />
+      <Route
+        exact
+        path={ROUTES.PASSWORD_FORGET}
+        component={PasswordForgetPage}
+      />
+      <Route exact path={ROUTES.HOME} component={HomePage} />
+      <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
+      <Route exact path={ROUTES.ADMIN} component={AdminPage} />
+      <Route exact path={ROUTES.PANTRY} component={Pantry} />
+    </div>
+  </Router>
+);
 
-// initialize rotues and navi links
-// const initRoutes = () => (
-//   <Router>
-//     <div>
-//       <Header />
-//       {routes}
-
-//     </div>
-//   </Router>
-// );
-
-// const initializedRoutes = initRoutes();
-// ReactDOM.render(
-//   initializedRoutes, 
-//   document.getElementById("root")
-// );
-
-
-
-// return (
-//     <Router>
-//         <div className="App">
-//             { this.state.user ? (<Home/>) : (<Login/>) }
-//         </div>
-//     </Router>
-// )
+export default withAuthentication(App);

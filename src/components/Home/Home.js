@@ -1,44 +1,14 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import ReactDOM from 'react-dom';
-import fire from '../Fire/fire';
-import Header from '../Header/header'
-import Footer from '../Footer/footer'
-import Nav from '../Navbar/navbar';
-import '../../styles/home.css';
-import Pantry from '../Pantry/pantry';
-export default class Home extends Component {
+import React from 'react';
 
-  constructor(props){
-    super(props);
-    this.logoutFirebase = this.logoutFirebase.bind(this);
-  }
-  goToPantry(current){
-    ReactDOM.render(<Pantry/>, document.getElementById("root"));
-  }
-  logoutFirebase()
-  {
-      fire.auth().signOut();
-  }
-  render() {
-    return (
-      <div className="Home">
-        <h2>Home</h2>
-          {/* navigation bar */}
+import { withAuthorization } from '../Session';
 
+const HomePage = () => (
+  <div>
+    <h1>Home Page</h1>
+    <p>The Home Page is accessible by every signed in user.</p>
+  </div>
+);
 
+const condition = authUser => !!authUser;
 
-        {/*TODO Put these buttons in a navbar, make it look nice*/}
-        {/* <ul>
-          <li><button id="pantry" onClick={this.goToPantry}>Pantry</button></li>
-          <li><button id="list" onclick={this.goToList}>List</button></li>
-          <li><button id="recipes" onClick={this.goToRecipes}>Recipes</button></li>
-          <li><button id="favorites" onClick={this.goToFavorites}>Favorites</button></li>
-          <li><button id="profile" onClick={this.goToProfile}>Profile</button></li>
-        </ul> 
-        <Nav/>*/}
-      
-      </div>
-    )
-  }
-}
+export default withAuthorization(condition)(HomePage);

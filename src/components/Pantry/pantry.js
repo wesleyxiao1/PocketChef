@@ -1,53 +1,14 @@
-import fire from '../Fire/fire';
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 
-export default class Pantry extends Component{
+import { withAuthorization } from '../Session';
 
-    constructor(props){
-        super(props);
-        this.db = fire.firestore();
-        //need to get user email and pass into the reference below
-        this.email = fire.auth().currentUser.email;
-        this.docRef = fire.firestore().collection('users').doc(this.email);
-        this.docUnsub = null;
+const Pantry = () => (
+  <div>
+    <h1>Pantry Page</h1>
+    <p>The Pantry Page is accessible by every signed in user.</p>
+  </div>
+);
 
-        this.state = {
-            favorites: [],
-            pantry: []
-        };
-    }
+const condition = authUser => !!authUser;
 
-    onDocumentUpdate = (documentSnapshot) => {
-        let favorites = documentSnapshot.get('pantry');
-        
-        //if the favorites field in the DB doesnt exist, or has no entries
-        if (typeof favorites === "undefined" || favorites.length == 0){
-            let favorites = ["no pantry items"];
-            this.setState({favorites});
-        }else{
-            this.setState({favorites});
-        }
-    }
-
-    componentDidMount(){
-        this.docUnsub = this.docRef.onSnapshot(this.onDocumentUpdate);
-    }
-    render(){
-        return(
-            <div id="main">
-                Pantry
-                <h1>
-                    {this.state.favorites.map(fav => 
-                        <tr>
-                            <td>{fav}</td>
-                        </tr>
-                        )}
-                </h1>
-            </div>
-        );
-    }
-
-
-
-}
+export default withAuthorization(condition)(Pantry);
