@@ -12,13 +12,14 @@ import { withFirebase } from '../Firebase';
 import { withRouter } from 'react-router-dom';
 import { withAuthorization } from '../Session';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
-
+import Switch from '@material-ui/core/Switch';
+import yellow from '@material-ui/core/colors/yellow';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import {Grid} from '@material-ui/core/Grid';
+import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -26,6 +27,7 @@ import List from '@material-ui/core/List';
 import Checkbox from '@material-ui/core/Checkbox';
 import * as ROUTES from '../../constants/routes';
 import { ListItemText, ListItem } from '@material-ui/core';
+
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -96,9 +98,11 @@ class HomePageBase extends Component {
   }
 
   onTileTouch(name){
+    //display the youtube API
   }
   
   addToFavourites(uri){
+    //add the URI to the users favorites
 
   }
 
@@ -123,28 +127,35 @@ class HomePageBase extends Component {
         >
             Search
         </Button>
-        <GridList cellHeight={280} cols={1}>
-            {this.state.data.map((item) => {
-              return(
-                <GridListTile key={item.title}>
-                  onTouchTap={(e) => {
-                    this.onTileTouch(item.title)
-                  }}
-                  <img
-                    style={{width: 600, height: 300}}
-                    src={item.image_url}
-                  />
-                  <GridListTileBar
-                      title={item.title }
-                      actionIcon={<FavoriteBorderOutlinedIcon onTouchTap={
-                        this.addToFavourites(item.f2f_url)
-                      }/>}
-                  />
-                </GridListTile>
-              );
-            })
-            }
-        </GridList>
+        <Grid container>
+          <GridList cellHeight={280} cols={1}>
+              {this.state.data.map((item) => {
+                return(
+                  <GridListTile key={item.title}>
+                    onTouchTap={(e) => {
+                      this.onTileTouch(item.title)
+                    }}
+                    <img
+                      style={{width: 600, height: 300}}
+                      src={item.image_url}
+                    />
+                    <GridListTileBar
+                        title={item.title }
+                        actionIcon={<Switch
+                          value="checkedA"
+                          inputProps={{ 'aria-label': 'Switch A' } }
+                          color='secondary'
+                          onTouchTap={
+                            this.addToFavourites(item.f2f_url)
+                          }
+                        />}
+                    />
+                  </GridListTile>
+                );
+              })
+              }
+          </GridList>
+        </Grid>
       </div>
     )
   }

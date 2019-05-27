@@ -195,9 +195,6 @@ span.psw {
   display: block; /* Make it into a block element to fill the whole list */
 }
 
-.left-div{
-  float: left;
-}
 
 img {
  max-width: 350px;
