@@ -38,10 +38,16 @@ export default class Home extends Component {
     })()}
   */
 
-  handleClick() {
+  /*handleClick() {
     fetch(`https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken`)
       .then(res => res.json())
-      .then(json => this.setState({ data: json.recipes }));
+      .then(json => this.setState({ data: json.hits }));
+  }*/
+
+  handleClick() {
+    fetch(`https://api.edamam.com/search?q=chicken&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=3&calories=59`)
+      .then(res => res.json())
+      .then(json => this.setState({ data: json.hits }));
   }
 
     /*axios.get('https://api.edamam.com/search?q=chicken&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=3&calories=59')
@@ -74,14 +80,26 @@ export default class Home extends Component {
           <div className="searchResults">
             <ul className="results">
               {/*this.state.data.recipes.map(el => (*/}              
-              {this.state.data.map(function(recipe, i){
+              {this.state.data.map(function(item, i){
                   return <li key={i}>
-                    <div>
-                      <a>{recipe.title}</a>
-                    </div>
-                    <div style="float: left;">
-                        <img src={recipe.image_url}></img>
+                    <div className="entire-div">
+                      <a>{item.recipe.label}</a>
+                      <div className="left-div" title="Description">
+                        <ul className="recipe-description">
+                          <li> {item.recipe.source}</li>
+                          {item.recipe.ingredients.map(function(ingredient, i){
+                            return(
+                              <li>
+                                {ingredient.text}
+                              </li>
+                            )
+                          })}
+                        </ul>
                       </div>
+                      <div className="right-div">
+                        <img src={item.recipe.image}></img>
+                      </div>
+                    </div>
                   </li>
               })
               }

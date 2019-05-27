@@ -195,6 +195,16 @@ span.psw {
   display: block; /* Make it into a block element to fill the whole list */
 }
 
+.left-div{
+  float: left;
+}
+
+img {
+ max-width: 350px;
+ max-height: 350px;
+}
+
+
 .results li a:hover:not(.header) {
   background-color: #FFF; /* Add a hover effect to all links, except for headers */
 }
