@@ -1,53 +1,34 @@
-import fire from '../Fire/fire';
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { compose } from 'recompose';
 
-export default class Pantry extends Component{
+import { withAuthorization, withEmailVerification } from '../Session';
+import { withFirebase } from '../Firebase';
 
-    constructor(props){
-        super(props);
-        this.db = fire.firestore();
-        //need to get user email and pass into the reference below
-        this.email = fire.auth().currentUser.email;
-        this.docRef = fire.firestore().collection('users').doc(this.email);
-        this.docUnsub = null;
+const PantryPage = () => (
+  <div>
+    <h1>Pantry Page</h1>
+    <p>The Pantry Page is accessible by every signed in user.</p>
 
-        this.state = {
-            favorites: [],
-            pantry: []
-        };
-    }
+    <Pantry_items />
+  </div>
+);
 
-    onDocumentUpdate = (documentSnapshot) => {
-        let favorites = documentSnapshot.get('pantry');
-        
-        //if the favorites field in the DB doesnt exist, or has no entries
-        if (typeof favorites === "undefined" || favorites.length == 0){
-            let favorites = ["no pantry items"];
-            this.setState({favorites});
-        }else{
-            this.setState({favorites});
-        }
-    }
+class PantryBase extends Component {
+  constructor(props) {
+    super(props);
 
-    componentDidMount(){
-        this.docUnsub = this.docRef.onSnapshot(this.onDocumentUpdate);
-    }
-    render(){
-        return(
-            <div id="main">
-                Pantry
-                <h1>
-                    {this.state.favorites.map(fav => 
-                        <tr>
-                            <td>{fav}</td>
-                        </tr>
-                        )}
-                </h1>
-            </div>
-        );
-    }
-
-
-
+    this.state = {
+      loading: false,
+      pantry_items: [],
+    };
+  }  
 }
+
+const Pantry_items = withFirebase(PantryBase);
+
+const condition = authUser => !!authUser;
+
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition),
+)(PantryPage);

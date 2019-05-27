@@ -1,18 +1,20 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-} from "react-router-dom";
-import App from "./components/App/app";
-//import * as serviceWorker from './serviceWorker';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-/**
- * Entry point to our application. For now we just need the App componenet. As we grow we will also implement our react redux stores here
- */
+import './index.css';
+import * as serviceWorker from './serviceWorker';
+
+import App from './components/App/app';
+import Firebase, { FirebaseContext } from './components/Firebase';
 
 ReactDOM.render(
-    <Router>
-      <App />
-    </Router>,
-    document.getElementById('root')
+  <FirebaseContext.Provider value={new Firebase()}>
+    <App />
+  </FirebaseContext.Provider>,
+  document.getElementById('root'),
 );
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();
