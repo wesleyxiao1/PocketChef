@@ -10,6 +10,7 @@ import Pantry from '../Pantry/pantry';
 import HomePage from '../Home/Home';
 import AccountPage from '../Account/account';
 import AdminPage from '../Admin/admin';
+import youtubePage from '../Youtube/youtube';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
@@ -28,6 +29,11 @@ const App = () => (
         exact
         path={ROUTES.PASSWORD_FORGET}
         component={PasswordForgetPage}
+      />
+      <Route
+        exact
+        path={ROUTES.YOUTUBE}
+        component={youtubePage}
       />
       <Route exact path={ROUTES.HOME} component={HomePage} />
       <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />

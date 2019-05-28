@@ -27,7 +27,10 @@ import List from '@material-ui/core/List';
 import Checkbox from '@material-ui/core/Checkbox';
 import * as ROUTES from '../../constants/routes';
 import { ListItemText, ListItem } from '@material-ui/core';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import Popup from './popup';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -64,7 +67,9 @@ class HomePageBase extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data: []
+      data: [],
+      videoData: [],
+      showPopup: false
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -85,17 +90,23 @@ class HomePageBase extends Component {
       .then(json => this.setState({ data: json.hits }));
   }*/
 
-  /*handleClick() {
+  handleClick() {
     fetch(`https://api.edamam.com/search?q=chicken&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10&calories=59`)
       .then(res => res.json())
       .then(json => this.setState({ data: json.hits }));
-  }*/
+  }
+  
+  togglePopup() {  
+    this.setState({  
+         showPopup: !this.state.showPopup  
+    });  
+  }
 
-  handleClick() {
+  /*handleClick() {
     fetch(`https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken`)
       .then(res => res.json())
       .then(json => this.setState({ data: json.recipes }));
-  }
+  }*/
 
   onTileTouch(name){
     //display the youtube API
@@ -118,6 +129,9 @@ class HomePageBase extends Component {
 
     return(
       <div>
+        <MenuItem
+          primaryText="Profile"
+        />
         <Button
           type="search"
           fullWidth
@@ -127,35 +141,30 @@ class HomePageBase extends Component {
         >
             Search
         </Button>
-        <Grid container>
-          <GridList cellHeight={280} cols={1}>
-              {this.state.data.map((item) => {
-                return(
-                  <GridListTile key={item.title}>
-                    onTouchTap={(e) => {
-                      this.onTileTouch(item.title)
-                    }}
-                    <img
-                      style={{width: 600, height: 300}}
-                      src={item.image_url}
-                    />
-                    <GridListTileBar
-                        title={item.title }
-                        actionIcon={<Switch
-                          value="checkedA"
-                          inputProps={{ 'aria-label': 'Switch A' } }
-                          color='secondary'
-                          onTouchTap={
-                            this.addToFavourites(item.f2f_url)
-                          }
-                        />}
-                    />
-                  </GridListTile>
-                );
-              })
-              }
-          </GridList>
-        </Grid>
+        <List>
+          {this.state.data.map((item) => {
+                  return(
+                    <ListItem>
+                        <Grid container>
+                          <Grid item xs={6}>
+                            <img src={item.recipe.image} onClick={this.togglePopup.bind(this)}/>
+                          </Grid>
+                          <Grid item xs={6}>
+                            {item.recipe.label}
+                          </Grid>
+                        </Grid>
+                        {this.state.showPopup ?  
+                        <Popup  
+                          text={item.recipe.label}  
+                          closePopup={this.togglePopup.bind(this)}  
+                        />
+                        :null
+                        }  
+                    </ListItem>
+                  );
+                })
+                }
+        </List>
       </div>
     )
   }
@@ -166,11 +175,8 @@ const HomePage = () => (
   <Container component="main" maxWidth="xs">
   <CssBaseline />
     <div className={useStyles.paper}>
-      <Typography component="h1" variant="h5">
-          Home
-      </Typography>
       <HomePageList/>
-      </div>
+    </div>
   </Container>
 );
 
