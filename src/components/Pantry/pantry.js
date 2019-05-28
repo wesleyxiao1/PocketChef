@@ -57,7 +57,10 @@ class PantryItemsBase extends Component {
   componentDidMount() {
     this.setState({ loading: true });
 
-    this.props.firebase.pantry_items().on('value', snapshot => {
+    this.props.firebase
+      .pantry_items()
+      .orderByChild('createdAt')
+      .on('value', snapshot => {
       const pantryItemObject = snapshot.val();
       if (pantryItemObject) {
         const pantryList = Object.keys(pantryItemObject).map(key => ({
@@ -91,6 +94,7 @@ class PantryItemsBase extends Component {
 
             {pantry_items ? (
               <PantryList 
+                authUser={authUser}
                 pantry_items={pantry_items}
                 onRemovePantryItem={this.onRemovePantryItem}
                 onEditPantryItem={this.onEditPantryItem}
@@ -115,6 +119,7 @@ class PantryItemsBase extends Component {
 }
 
 const PantryList = ({ 
+  authUser,
   pantry_items, 
   onEditPantryItem,
   onRemovePantryItem 
@@ -122,6 +127,7 @@ const PantryList = ({
   <ul>
     {pantry_items.map(pantry_item => (
       <PantryItem 
+        authUser={authUser}
         key={pantry_item.uid} 
         pantry_item={pantry_item}
         onRemovePantryItem={onRemovePantryItem}
@@ -171,43 +177,47 @@ class PantryItem extends Component {
   };
 
   render() {
-    const { pantry_item, onRemovePantryItem } = this.props;
+    const { authUser, pantry_item, onRemovePantryItem } = this.props;
     const { editMode, editText } = this.state;
 
     return (
       <li>
-        {editMode ? (
-          <input
-            type="text"
-            value={editText}
-            onChange={this.onChangeEditText}
-          />
-        ) : (
+        {authUser.uid === pantry_item.userId && (
           <span>
-            <strong>
-              {pantry_item.user|| pantry_item.user}
-            </strong>{' '}
-            {pantry_item.text} {pantry_item.editedAt && <span>(Edited)</span>}
-          </span>
-        )}
+          {editMode ? (
+            <input
+              type="text"
+              value={editText}
+              onChange={this.onChangeEditText}
+            />
+          ) : (
+            <span>
+              <strong>
+                {pantry_item.user|| pantry_item.user}
+              </strong>{' '}
+              {pantry_item.text} {pantry_item.editedAt && <span>(Edited)</span>}
+            </span>
+          )}
 
-        {editMode ? (
-          <span>
-            <button onClick={this.onSaveEditText}>Save</button>
-            <button onClick={this.onToggleEditMode}>Reset</button>
-          </span>
-        ) : (
-          <button onClick={this.onToggleEditMode}>Edit</button>
-        )}
+          {editMode ? (
+            <span>
+              <button onClick={this.onSaveEditText}>Save</button>
+              <button onClick={this.onToggleEditMode}>Reset</button>
+            </span>
+          ) : (
+            <button onClick={this.onToggleEditMode}>Edit</button>
+          )}
 
-        {!editMode && (
-          <button
-            type="button"
-            onClick={() => onRemovePantryItem(pantry_item.uid)}
-          >
-            Delete
-          </button>
-        )}
+          {!editMode && (
+            <button
+              type="button"
+              onClick={() => onRemovePantryItem(pantry_item.uid)}
+            >
+              Delete
+            </button>
+          )}
+        </span>
+      )}
       </li>
     );
   }
