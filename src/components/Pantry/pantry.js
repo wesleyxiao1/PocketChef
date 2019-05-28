@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
 
-import { withAuthorization, withEmailVerification } from '../Session';
-import { withFirebase } from '../Firebase';
+////So I think the onDocumentupdate function is a little whack. It updates early 
+export default class Pantry extends Component{
 
     constructor(props){
         super(props);
@@ -10,6 +10,13 @@ import { withFirebase } from '../Firebase';
         //need to get user email and pass into the reference below
         this.email = fire.auth().currentUser.email;
         this.docRef = fire.firestore().collection('users').doc(this.email);
+        this.docRef.get().then(doc => {
+          if( !doc.exists){
+            this.docRef.set({
+              pantry: []
+            });
+          }
+        });
         this.docUnsub = null;
         this.changingInput = this.changingInput.bind(this);
         this.addToPantry = this.addToPantry.bind(this);
@@ -34,6 +41,9 @@ import { withFirebase } from '../Firebase';
         newIngredient: ""
       });
       console.log(this.state.pantry);
+      this.docRef.update({
+        pantry: this.state.pantry
+      });
     }
 
     onDocumentUpdate = (documentSnapshot) => {
