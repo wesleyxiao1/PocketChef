@@ -7,11 +7,31 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core' 
+import {blue, grey} from '@material-ui/core/colors/'
 import SignOutButton from '../SignOut/signout';
 import * as ROUTES from '../../constants/routes';
 
 import { AuthUserContext } from '../Session';
+
+const useStyles = makeStyles(theme => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white,
+    },
+  },
+
+  button: {
+    margin: theme.spacing(5),
+  },
+}));
+
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+    secondary: grey,
+  },
+});
 
 const Navigation = () => (
   <div>
@@ -25,53 +45,60 @@ const Navigation = () => (
 
 const NavigationAuth = () => (
   
-  <div>
+  <MuiThemeProvider theme={theme}>
     <AppBar position="static">
       <Toolbar>
       <IconButton edge="start" color="inherit" aria-label="Menu">
             <MenuIcon />
       </IconButton>
-      <Typography variant="h6">
+      <Typography variant="h5" marginRight="theme.spacing(10)">
             Pocket Chef
       </Typography>
-      <Button color="inherit">
-        <Link to={ROUTES.LANDING}>Landing</Link>
+      <Button component={Link} to={ROUTES.LANDING} color="inherit" className={useStyles.button}>
+        Landing
       </Button>
-      <Button color="inherit">
-        <Link to={ROUTES.HOME}>Home</Link>
+      <Button component={Link} to={ROUTES.HOME} color="inherit" className={useStyles.button}>
+        Home
       </Button>
-      <Button color="inherit">
-        <Link to={ROUTES.ACCOUNT}>Account</Link>
+      <Button component={Link} to={ROUTES.ACCOUNT} color="inherit" className={useStyles.button}>
+        Account
       </Button>
-      <Button color="inherit">
-        <Link to={ROUTES.ADMIN}>Admin</Link>
+      <Button component={Link} to={ROUTES.ADMIN} color="inherit" className={useStyles.button}>
+        Admin
       </Button>
-      <Button color="inherit">
-        <Link to={ROUTES.PANTRY}>Pantry</Link>
+      <Button component={Link} to={ROUTES.PANTRY} color="inherit" className={useStyles.button}>
+        Pantry
       </Button>
-      <Button color="inherit">
+      <Typography style={{flex: 1}}></Typography>
+      <Button component={Link} to={ROUTES.LANDING} color="inherit" className={useStyles.button}>
         <SignOutButton />
       </Button>
       </Toolbar>
     </AppBar>
-  </div>
+  </MuiThemeProvider>
 );
 
+
 const NavigationNonAuth = () => (
+  <MuiThemeProvider theme={theme}>
+  <AppBar position="static">
   <Toolbar>
-    <IconButton edge="start" color="Primary" aria-label="Menu">
+    <IconButton edge="start" color="inherit" aria-label="Menu">
           <MenuIcon />
     </IconButton>
-    <Typography variant="h6">
+    <Typography variant="h5">
           Pocket Chef
     </Typography>
-    <Button color="inherit">
-        <Link to={ROUTES.LANDING}>Landing</Link>
+    <Button component={Link} to={ROUTES.LANDING} color="inherit" className={useStyles.button}>
+        Landing
     </Button>
-    <Button color="inherit">
-        <Link to={ROUTES.LOGIN}>Login</Link>
+    <Typography style={{flex: 1}}></Typography>
+    <Button component={Link} to={ROUTES.LOGIN} color="inherit"  className={useStyles.button} >
+        Login
     </Button>
   </Toolbar>
+  </AppBar>
+  </MuiThemeProvider>
 );
 
 export default Navigation;
