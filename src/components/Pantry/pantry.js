@@ -137,18 +137,6 @@ const PantryList = ({
   </ul>
 );
 
-// const PantryItem = ({ pantry_item, onRemovePantryItem }) => (
-//   <li>
-//     <strong>{pantry_item.userId}</strong> {pantry_item.text}
-//     <button
-//       type="button"
-//       onClick={() => onRemovePantryItem(pantry_item.uid)}
-//     >
-//       Delete
-//     </button>
-//   </li>
-// );
-
 class PantryItem extends Component {
   constructor(props) {
    super(props);

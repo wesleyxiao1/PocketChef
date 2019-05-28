@@ -51,9 +51,9 @@ class Firebase {
 
   // *** Pantry API ***
 
-  pantry_item = uid => this.db.ref(`pantry_items/${uid}`);
+  pantry_item = uid => this.db.ref(`recipes/pantry_items/${uid}`);
 
-  pantry_items = () => this.db.ref('pantry_items');
+  pantry_items = () => this.db.ref('recipes/pantry_items');
 }
 
 export default Firebase;
