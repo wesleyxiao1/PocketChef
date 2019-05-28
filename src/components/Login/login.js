@@ -61,9 +61,9 @@ export default class Login extends Component {
           <img src={ require('../../images/corgi.png') } alt="Avatar" className="avatar" />
         </div>
         <div className="container">
-          {/* input for username and password */}
-          <label htmlFor="uname"><b>Username</b></label>
-          <input type="email" placeholder="Enter Username" name="email" id="login-input" value={this.state.email} onChange={this.changingInput} required />
+          {/* input for email and password */}
+          <label htmlFor="uname"><b>Email</b></label>
+          <input type="email" placeholder="Enter Email" name="email" id="login-input" value={this.state.email} onChange={this.changingInput} required />
           <label htmlFor="psw"><b>Password</b></label>
           <input type="password" placeholder="Enter Password" name="password" id="login-input" value={this.state.password} onChange={this.changingInput} required />
           <label>
