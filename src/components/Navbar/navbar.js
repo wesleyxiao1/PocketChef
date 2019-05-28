@@ -1,46 +1,77 @@
-import Pantry from '../Pantry/pantry';
-import List from '../List/list';
-import Recipes from '../Recipes/recipes';
-import Favorites from '../Favorites/favorites';
-import Profile from '../Profile/profile';
-import ReactDOM from 'react-dom';
-import React, {Component} from 'react';
-//navbar shared between every screen except login/signup
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
-export default class Nav extends Component{
+import SignOutButton from '../SignOut/signout';
+import * as ROUTES from '../../constants/routes';
 
+import { AuthUserContext } from '../Session';
 
-    goToPantry(current){
-        ReactDOM.render(<Pantry/>, document.getElementById("root"));
-    }
-    goToList(current){
-        ReactDOM.render(<List/>, document.getElementById("root"));
-    }
-    goToRecipes(current){
-        ReactDOM.render(<Recipes/>, document.getElementById("root"));
-    }
-    goToFavorites(current){
-        ReactDOM.render(<Favorites/>, document.getElementById("root"));
-    }
-    goToProfile(current){
-        ReactDOM.render(<Profile/>, document.getElementById("root"));
-    }
-    render(){
-        return(
-            <nav>
-                <div className="navWide">
-                    <div className="wideDiv">
-                        <a onClick={this.goToPantry}>Pantry</a>
-                        <a onClick={this.goToList}>List</a>
-                        <a onClick={this.goToRecipes}>Recipes</a>
-                        <a onClick={this.goToFavorites}>Favorites</a>
-                        <a onClick={this.goToProfile}>Profile</a>
-                    </div>
+const Navigation = () => (
+  <div>
+    <AuthUserContext.Consumer>
+      {authUser =>
+        authUser ? <NavigationAuth /> : <NavigationNonAuth />
+      }
+    </AuthUserContext.Consumer>
+  </div>
+);
 
-                </div>
-            </nav>
-        )
-    }
+const NavigationAuth = () => (
+  
+  <div>
+    <AppBar position="static">
+      <Toolbar>
+      <IconButton edge="start" color="inherit" aria-label="Menu">
+            <MenuIcon />
+      </IconButton>
+      <Typography variant="h6">
+            Pocket Chef
+      </Typography>
+      <Button color="inherit">
+        <Link to={ROUTES.LANDING}>Landing</Link>
+      </Button>
+      <Button color="inherit">
+        <Link to={ROUTES.HOME}>Home</Link>
+      </Button>
+      <Button color="inherit">
+        <Link to={ROUTES.ACCOUNT}>Account</Link>
+      </Button>
+      <Button color="inherit">
+        <Link to={ROUTES.ADMIN}>Admin</Link>
+      </Button>
+      <Button color="inherit">
+        <Link to={ROUTES.PANTRY}>Pantry</Link>
+      </Button>
+      <Button color="inherit">
+        <SignOutButton />
+      </Button>
+      </Toolbar>
+    </AppBar>
+  </div>
+);
 
+const NavigationNonAuth = () => (
+  <Toolbar>
+    <IconButton edge="start" color="Primary" aria-label="Menu">
+          <MenuIcon />
+    </IconButton>
+    <Typography variant="h6">
+          Pocket Chef
+    </Typography>
+    <Button color="inherit">
+        <Link to={ROUTES.LANDING}>Landing</Link>
+    </Button>
+    <Button color="inherit">
+        <Link to={ROUTES.LOGIN}>Login</Link>
+    </Button>
+  </Toolbar>
+);
 
-}
+export default Navigation;
