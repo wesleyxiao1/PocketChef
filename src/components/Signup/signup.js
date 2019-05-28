@@ -16,6 +16,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core' 
+import blue from '@material-ui/core/colors/blue'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -42,18 +44,26 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+  },
+});
+
 const SignUpPage = () => (
   <Container component="main" maxWidth="xs">
     <CssBaseline />
-    <div className={useStyles.paper}>
+    <div align="center">
       <Avatar className={useStyles.avatar}>
         <LockOutlinedIcon />
       </Avatar>
-      <Typography component="h1" variant="h5">
+      </div>
+      <Typography component="h1" variant="h5" align='center'>
         Sign up
-      </Typography>     
+      </Typography> 
+      <br></br>    
         <SignUpForm />
-    </div>
+
   </Container>
 );
 
@@ -121,6 +131,7 @@ class SignUpFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
+        <MuiThemeProvider theme={theme}>
         <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -194,6 +205,7 @@ class SignUpFormBase extends Component {
         </Button>
           {error && <p>{error.message}</p>}
         </Grid>
+        </MuiThemeProvider>
       </form>
       
     );
