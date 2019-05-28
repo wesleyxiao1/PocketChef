@@ -11,11 +11,29 @@ export default class Pantry extends Component{
         this.email = fire.auth().currentUser.email;
         this.docRef = fire.firestore().collection('users').doc(this.email);
         this.docUnsub = null;
+        this.changingInput = this.changingInput.bind(this);
+        this.addToPantry = this.addToPantry.bind(this);
 
         this.state = {
             favorites: [],
-            pantry: []
+            pantry: [],
+            newIngredient: ""
         };
+    }
+
+    changingInput(current) {
+      this.setState({
+        [current.target.name]: current.target.value 
+      });
+    }
+
+    addToPantry(current){
+      ////TODO: get this working with firebase
+      this.setState({
+        pantry: this.state.pantry.concat(this.state.newIngredient),
+        newIngredient: ""
+      });
+      console.log(this.state.pantry);
     }
 
     onDocumentUpdate = (documentSnapshot) => {
@@ -44,7 +62,22 @@ export default class Pantry extends Component{
                         </tr>
                         )}
                 </h1>
-                <button id="additem">Add to Pantry</button>
+                <input
+                  type="text"
+                  placeholder="Enter ingredient to add"
+                  name="newIngredient"
+                  id="ingredient-input"
+                  value={this.state.newIngredient}
+                  onChange={this.changingInput}
+                  required />
+                <button
+                  type = "submit"
+                  id="additem"
+                  onClick={this.addToPantry}
+                  class="btn btn-primary"
+                  >
+                  Add to Pantry
+                  </button>
             </div>
         );
     }
