@@ -24,7 +24,6 @@ class Popup extends React.Component {
     };
   
     render() { 
-        {this.handleSubmit(this.props.text)} 
 
     return ( 
         <div className='popup'>  
@@ -32,7 +31,7 @@ class Popup extends React.Component {
                 <button onClick={this.props.closePopup}>close me</button>  
             </div>  
             <div>
-                <VideoList videos={this.videoData}/>
+                {this.props.text}
             </div>
         </div>  
     );  

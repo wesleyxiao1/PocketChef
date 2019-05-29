@@ -43,7 +43,10 @@
   },
   "description": "",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wesleyxiao1/PocketChef.git"

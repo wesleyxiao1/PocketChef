@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React ,{ Component, useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ReactDOM from 'react-dom';
 
@@ -101,7 +101,6 @@ class HomePageBase extends Component {
          showPopup: !this.state.showPopup  
     });  
   }
-
   /*handleClick() {
     fetch(`https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken`)
       .then(res => res.json())
@@ -125,8 +124,7 @@ class HomePageBase extends Component {
       .then(response => this.setState({recipeName: response.data.recipes[0].title}))
   }*/
   render(){
-
-
+    console.log("In Home render");
     return(
       <div>
         <MenuItem
@@ -142,24 +140,19 @@ class HomePageBase extends Component {
             Search
         </Button>
         <List>
-          {this.state.data.map((item) => {
+          {this.state.data.map((item, i) => {
                   return(
                     <ListItem>
                         <Grid container>
                           <Grid item xs={6}>
-                            <img src={item.recipe.image} onClick={this.togglePopup.bind(this)}/>
+                            <img src={item.recipe.image}/>
                           </Grid>
-                          <Grid item xs={6}>
-                            {item.recipe.label}
+                          <Grid item xs={6} key={item.recipe.label}>
+                            <Link to={`/home/${item.recipe.label}`}>
+                              {item.recipe.label}
+                            </Link>   
                           </Grid>
-                        </Grid>
-                        {this.state.showPopup ?  
-                        <Popup  
-                          text={item.recipe.label}  
-                          closePopup={this.togglePopup.bind(this)}  
-                        />
-                        :null
-                        }  
+                        </Grid> 
                     </ListItem>
                   );
                 })

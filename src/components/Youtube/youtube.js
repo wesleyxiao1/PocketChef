@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ReactDOM from 'react-dom';
 
@@ -36,81 +36,15 @@ import VideoList from '../Youtube/VideoList';
 import VideoItem from './VideoItem';
 
 
-const YTKEY = 'AIzaSyB8MkjVeph6pAYtTK2VtJVpp30Di_gn5ho';
+const YTKEY = 'AIzaSyC77Pb3aPbpOg3RDhx8GZzPEbts4VAeN6w';
 
-axios.create({
+export default axios.create({
   baseURL: 'https://www.googleapis.com/youtube/v3/',
   params: {
     part: 'snippet',
-    maxResults: 3,
+    maxResults: 5,
     type: 'video',
     key: YTKEY
   }
-})
+});
 
-
-
-const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  media: {
-    height: 20,
-    paddingTop: '56.25%', // 16:9,
-    marginTop:'30'
-  },
-}));
-
-class youtubePageBase extends Component {
-
-  constructor(props){
-    super(props);
-    this.state = {
-      videoData: []
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  render(){
-    return(
-      <div>
-        <VideoItem video={this.state.videoData}/>
-      </div>
-    );
-  }
-
-}
-
-const youtubePage = () => (
-  <Container component="main" maxWidth="xs">
-  <CssBaseline />
-    <div className={useStyles.paper}>
-      <youtubePageList/>
-    </div>
-  </Container>
-);
-
-const youtubePageList = compose(
-  withRouter,
-)(youtubePageBase);
-
-export default (youtubePage);
