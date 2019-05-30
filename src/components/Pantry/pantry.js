@@ -16,11 +16,11 @@ const PantryPage = () => (
 class PantryItemsBase extends Component {
   constructor(props) {
     super(props);
-
+    this.addToDataBase = this.addToDataBase.bind(this);
     this.state = {
       text: '',
       loading: false,
-      plzwork: [],
+      localpantry: [],
     };
   }
 
@@ -30,7 +30,7 @@ class PantryItemsBase extends Component {
     this.props.firebase.pantry_item(pantry_item.uid).set({
       ...pantryItemSnapshot,
       text,
-      editedAt: this.props.firebase.serverValue.TIMESTAMP,
+      // editedAt: this.props.firebase.serverValue.TIMESTAMP,
     });
   };
 
@@ -43,20 +43,21 @@ class PantryItemsBase extends Component {
   };
 
   onCreatePantryItem = (event, authUser) => {
+    this.state.localpantry.push(this.state.text);
+    this.state.text='';
     this.setState({
-      plzwork: this.state.plzwork.concat(this.state.text),
-
-     });
-    console.log(this.state.plzwork);
-   this.props.firebase.pantry_items(authUser.uid).update({
-      // ingredient: this.state.text,
-      pantry_items: this.state.plzwork
+      text: ''
     });
-
-     this.setState({ text: '' });
-
+    console.log(this.state.localpantry);
+    this.addToDataBase(authUser);
     event.preventDefault();
   };
+
+  addToDataBase(authUser){
+    this.props.firebase.pantry_items(authUser.uid).update({
+      pantry_items: this.state.localpantry
+    });
+  }
 
   componentDidMount() {
     this.setState({ loading: true });
@@ -65,22 +66,22 @@ class PantryItemsBase extends Component {
       .pantry_items()
       .orderByChild('createdAt')
       .on('value', snapshot => {
-      const pantryItemObject = snapshot.val();
-      if (pantryItemObject) {
-        const pantryList = Object.keys(pantryItemObject).map(key => ({
-          ...pantryItemObject[key],
-          uid: key,
-        }));
-        // convert pantry item list from snapshot
-        this.setState({
-           loading: false,
-           pantry_items: pantryList,
-        });
-        
-      } else {
-        this.setState({ pantry_items: null, loading: false });
-      }
-    });
+        const pantryItemObject = snapshot.val();
+        if (pantryItemObject) {
+          const pantryList = Object.keys(pantryItemObject).map(key => ({
+            ...pantryItemObject[key],
+            uid: key,
+          }));
+          // convert pantry item list from snapshot
+          this.setState({
+            loading: false,
+            pantry_items: pantryList,
+          });
+
+        } else {
+          this.setState({ pantry_items: null, loading: false });
+        }
+      });
   }
 
   componentWillUnmount() {
@@ -97,15 +98,15 @@ class PantryItemsBase extends Component {
             {loading && <div>Loading ...</div>}
 
             {pantry_items ? (
-              <PantryList 
+              <PantryList
                 authUser={authUser}
                 pantry_items={pantry_items}
                 onRemovePantryItem={this.onRemovePantryItem}
                 onEditPantryItem={this.onEditPantryItem}
               />
             ) : (
-              <div>There are no pantry items ...</div>
-            )}
+                <div>There are no pantry items ...</div>
+              )}
             <form onSubmit={event => this.onCreatePantryItem(event, authUser)}>
               <input
                 type="text"
@@ -122,33 +123,33 @@ class PantryItemsBase extends Component {
   }
 }
 
-const PantryList = ({ 
+const PantryList = ({
   authUser,
-  pantry_items, 
+  pantry_items,
   onEditPantryItem,
-  onRemovePantryItem 
+  onRemovePantryItem
 }) => (
-  <ul>
-    {pantry_items.map(pantry_item => (
-      <PantryItem 
-        authUser={authUser}
-        key={pantry_item.uid} 
-        pantry_item={pantry_item}
-        onRemovePantryItem={onRemovePantryItem}
-        onEditPantryItem={onEditPantryItem}
-      />
-    ))}
-  </ul>
-);
+    <ul>
+      {pantry_items.map(pantry_item => (
+        <PantryItem
+          authUser={authUser}
+          key={pantry_item.uid}
+          pantry_item={pantry_item}
+          onRemovePantryItem={onRemovePantryItem}
+          onEditPantryItem={onEditPantryItem}
+        />
+      ))}
+    </ul>
+  );
 
 class PantryItem extends Component {
   constructor(props) {
-   super(props);
+    super(props);
 
-   this.state = {
-     editMode: false,
-     editText: this.props.pantry_item.text,
-   };
+    this.state = {
+      editMode: false,
+      editText: this.props.pantry_item.text,
+    };
   }
 
   onToggleEditMode = () => {
@@ -176,45 +177,45 @@ class PantryItem extends Component {
       <li>
         {authUser.uid === pantry_item.userId && (
           <span>
-          {editMode ? (
-            <input
-              type="text"
-              value={editText}
-              onChange={this.onChangeEditText}
-            />
-          ) : (
-            <span>
-              <strong>
-                {pantry_item.user|| pantry_item.user}
-              </strong>{' '}
-              {pantry_item.text} {pantry_item.editedAt && <span>(Edited)</span>}
-            </span>
-          )}
+            {editMode ? (
+              <input
+                type="text"
+                value={editText}
+                onChange={this.onChangeEditText}
+              />
+            ) : (
+                <span>
+                  <strong>
+                    {pantry_item.user || pantry_item.user}
+                  </strong>{' '}
+                  {pantry_item.text} {pantry_item.editedAt && <span>(Edited)</span>}
+                </span>
+              )}
 
-          {editMode ? (
-            <span>
-              <button onClick={this.onSaveEditText}>Save</button>
-              <button onClick={this.onToggleEditMode}>Reset</button>
-            </span>
-          ) : (
-            <button onClick={this.onToggleEditMode}>Edit</button>
-          )}
+            {editMode ? (
+              <span>
+                <button onClick={this.onSaveEditText}>Save</button>
+                <button onClick={this.onToggleEditMode}>Reset</button>
+              </span>
+            ) : (
+                <button onClick={this.onToggleEditMode}>Edit</button>
+              )}
 
-          {!editMode && (
-            <button
-              type="button"
-              onClick={() => onRemovePantryItem(pantry_item.uid)}
-            >
-              Delete
+            {!editMode && (
+              <button
+                type="button"
+                onClick={() => onRemovePantryItem(pantry_item.uid)}
+              >
+                Delete
             </button>
-          )}
-        </span>
-      )}
+            )}
+          </span>
+        )}
       </li>
     );
   }
 
- 
+
 }
 
 const PantryItems = withFirebase(PantryItemsBase);
