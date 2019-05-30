@@ -20,7 +20,7 @@ class PantryItemsBase extends Component {
     this.state = {
       text: '',
       loading: false,
-      pantry_items: [],
+      plzwork: [],
     };
   }
 
@@ -43,11 +43,17 @@ class PantryItemsBase extends Component {
   };
 
   onCreatePantryItem = (event, authUser) => {
-    this.props.firebase.pantry_items(authUser.uid).push({
-      text: this.state.text,
+    this.setState({
+      plzwork: this.state.plzwork.concat(this.state.text),
+
+     });
+    console.log(this.state.plzwork);
+   this.props.firebase.pantry_items(authUser.uid).update({
+      // ingredient: this.state.text,
+      pantry_items: this.state.plzwork
     });
 
-    this.setState({ text: '' });
+     this.setState({ text: '' });
 
     event.preventDefault();
   };
