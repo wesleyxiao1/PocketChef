@@ -45,15 +45,15 @@ class Firebase {
 
 // *** User API ***
 
-  user = uid => this.db.ref(`users/${uid}`);
+  user = uid => this.db.ref(`users/${this.auth.currentUser}`);
 
   users = () => this.db.ref('users');
 
   // *** Pantry API ***
 
-  pantry_item = uid => this.db.ref(`recipes/pantry_items/${uid}`);
+  pantry_item = uid => this.db.ref(`users/${this.auth.currentUser}`);
 
-  pantry_items = () => this.db.ref('recipes/pantry_items');
+  pantry_items = uid => this.db.ref(`users/${uid}`);
 }
 
 export default Firebase;

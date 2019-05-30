@@ -43,10 +43,8 @@ class PantryItemsBase extends Component {
   };
 
   onCreatePantryItem = (event, authUser) => {
-    this.props.firebase.pantry_items().push({
+    this.props.firebase.pantry_items(authUser.uid).push({
       text: this.state.text,
-      userId: authUser.uid,
-      createdAt: this.props.firebase.serverValue.TIMESTAMP,
     });
 
     this.setState({ text: '' });
