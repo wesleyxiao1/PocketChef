@@ -41,8 +41,18 @@ class PantryItemsBase extends Component {
     this.setState({ text: event.target.value });
   };
 
-  onRemovePantryItem = uid => {
-    this.props.firebase.pantry_item(uid).remove();
+  onRemovePantryItem = (ingIndex) => {
+    // var newPantry = this.state.localpantry.splice(ingIndex,1);
+    // console.log(this.state.localpantry);
+    // this.setState({
+    //   localpantry: newPantry
+    // });
+    // this.state.localpantry = newPantry;
+    console.log("new pantry");
+    // console.log(this.state.localpantry);
+    // this.props.firebase.user(this.state.authUid).update({
+    //   pantry_items: this.state.localpantry
+    // });
   };
 
   onCreatePantryItem = (event) => {
@@ -126,9 +136,15 @@ class PantryItemsBase extends Component {
       <div id="main">
         {/* Pantry */}
         <h2>
-          {this.state.localpantry.map(ingredient =>
+          {this.state.localpantry.map((ingredient,index) =>
             <tr>
               <td>{ingredient}</td>
+              <button
+                  type="button"
+                  onClick={this.onRemovePantryItem(index)}
+                >
+                  Delete
+              </button>
             </tr>
           )}
         </h2>
