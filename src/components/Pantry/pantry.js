@@ -80,6 +80,9 @@ class PantryItemsBase extends Component {
     this.props.firebase
       .user(this.state.authUid).on('value', snapshot => {
         // console.log(snapshot.child("pantry_items").val());
+        this.setState({
+          localpantry: snapshot.child("pantry_items").val()
+        });
         this.state.localpantry = snapshot.child("pantry_items").val();
       });
   }
