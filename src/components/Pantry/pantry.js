@@ -57,8 +57,11 @@ class PantryItemsBase extends Component {
 
   onCreatePantryItem = (event) => {
 
+    if (!this.state.localpantry) {
+      this.state.localpantry=[];
+    }
     this.state.localpantry.push(this.state.text);
-    this.state.text = '';
+    // this.state.text = '';
     this.setState({
       text: ''
     });
@@ -76,8 +79,8 @@ class PantryItemsBase extends Component {
 
     this.props.firebase
       .user(this.state.authUid).on('value', snapshot => {
-        console.log(snapshot.child("pantry_items").val());
-        this.state.localpantry=snapshot.child("pantry_items").val();
+        // console.log(snapshot.child("pantry_items").val());
+        this.state.localpantry = snapshot.child("pantry_items").val();
       });
   }
 
@@ -119,20 +122,21 @@ class PantryItemsBase extends Component {
       // </AuthUserContext.Consumer>
       // <AuthUserContext.Consumer>
       <div id="main">
-        {/* Pantry */}
-        <h2>
-          {this.state.localpantry.map((ingredient,index) =>
-            <tr>
-              <td>{ingredient}</td>
-              <button
+        {this.state.localpantry && (
+          <h2>
+            {this.state.localpantry.map((ingredient, index) =>
+              <tr>
+                <td>{ingredient}</td>
+                <button
                   type="button"
                   onClick={this.onRemovePantryItem(index)}
                 >
                   Delete
               </button>
-            </tr>
-          )}
-        </h2>
+              </tr>
+            )}
+          </h2>
+        )}
         <input
           type="text"
           placeholder="Enter ingredient to add"
