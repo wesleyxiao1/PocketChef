@@ -19,11 +19,13 @@ class PantryItemsBase extends Component {
     // console.log(this.props);
     // const authUser= this.props.firebase.auth;
     // const uid = this.authUser.O;
+    this.onRemovePantryItem=this.onRemovePantryItem.bind(this);
     this.state = {
       text: '',
       loading: false,
       localpantry: [],
-      authUid: this.props.firebase.auth.O
+      authUid: this.props.firebase.auth.O,
+      tempshit: ''
     };
   }
 
@@ -40,9 +42,21 @@ class PantryItemsBase extends Component {
   onChangeText = event => {
     this.setState({ text: event.target.value });
   };
+  onChangeText2 = event => {
+    this.setState({ tempshit: event.target.value });
+  };
 
-  onRemovePantryItem = (ingIndex) => {
-    // var newPantry = this.state.localpantry.splice(ingIndex,1);
+  onRemovePantryItem(){
+    var temparray=this.state.localpantry;
+    for(var i=0;i<temparray.length;i++){
+      if(temparray[i]==this.state.tempshit){
+        temparray.splice(i,1);
+        i--;
+      }
+    }
+    this.setState({
+      localpantry: temparray
+    });
     // console.log(this.state.localpantry);
     // this.setState({
     //   localpantry: newPantry
@@ -50,15 +64,15 @@ class PantryItemsBase extends Component {
     // this.state.localpantry = newPantry;
     console.log("new pantry");
     // console.log(this.state.localpantry);
-    // this.props.firebase.user(this.state.authUid).update({
-    //   pantry_items: this.state.localpantry
-    // });
+    this.props.firebase.user(this.state.authUid).update({
+      pantry_items: this.state.localpantry
+    });
   };
 
   onCreatePantryItem = (event) => {
 
     if (!this.state.localpantry) {
-      this.state.localpantry=[];
+      this.state.localpantry = [];
     }
     this.state.localpantry.push(this.state.text);
     // this.state.text = '';
@@ -130,12 +144,12 @@ class PantryItemsBase extends Component {
             {this.state.localpantry.map((ingredient, index) =>
               <tr>
                 <td>{ingredient}</td>
-                <button
+                {/* <button
                   type="button"
-                  onClick={this.onRemovePantryItem(index)}
+                  onClick={this.onRemovePantryItem()}
                 >
                   Delete
-              </button>
+              </button> */}
               </tr>
             )}
           </h2>
@@ -155,6 +169,22 @@ class PantryItemsBase extends Component {
           class="btn btn-primary"
         >
           Add to Pantry
+                  </button>
+                  <input
+          type="text"
+          placeholder="Enter ingredient to delete"
+          name="remval"
+          id="ingredient-removal"
+          value={this.state.tempshit}
+          onChange={this.onChangeText2}
+          required />
+        <button
+          type="submit"
+          id="removeitem"
+          onClick={this.onRemovePantryItem}
+          class="btn btn-primary"
+        >
+          remove from pantry
                   </button>
       </div>
       // </AuthUserContext.Consumer> 
