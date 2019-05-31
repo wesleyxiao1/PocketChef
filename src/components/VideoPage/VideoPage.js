@@ -12,12 +12,12 @@ function VideoPage( match ){
     const [videos, setVideos] = useState([]);
     const [videoData, setVideoData] = useState([]);
     
-    
+    const searchValue = match.match.params.id + " recipe";
 
     const handleSubmit = async () => {
         const response = await youtube.get('/search', {
             params: {
-                q: match.match.params.id
+                q: searchValue
             }
         })
     //const data = await response.json();
