@@ -30,8 +30,6 @@ import { ListItemText, ListItem } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import Popup from './popup';
-
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
