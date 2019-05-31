@@ -10,7 +10,11 @@ const AccountPage = () => (
     {authUser => (
       <div>
         <h1>Account: {authUser.email}</h1>
+        <h2>Forgot Password? Enter email down below</h2>
         <PasswordForgetForm />
+        <br/>
+        <br/>
+        <h2>Reset Password? Enter new password down below</h2>
         <PasswordChangeForm />
       </div>
     )}
