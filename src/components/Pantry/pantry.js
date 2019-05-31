@@ -57,8 +57,11 @@ class PantryItemsBase extends Component {
 
   onCreatePantryItem = (event) => {
 
+    if (!this.state.localpantry) {
+      this.state.localpantry=[];
+    }
     this.state.localpantry.push(this.state.text);
-    this.state.text = '';
+    // this.state.text = '';
     this.setState({
       text: ''
     });
@@ -75,24 +78,9 @@ class PantryItemsBase extends Component {
     this.setState({ loading: true });
 
     this.props.firebase
-      .pantry_items()
-      .orderByChild('createdAt')
-      .on('value', snapshot => {
-        const pantryItemObject = snapshot.val();
-        if (pantryItemObject) {
-          const pantryList = Object.keys(pantryItemObject).map(key => ({
-            ...pantryItemObject[key],
-            uid: key,
-          }));
-          // convert pantry item list from snapshot
-          this.setState({
-            loading: false,
-            pantry_items: pantryList,
-          });
-
-        } else {
-          this.setState({ pantry_items: null, loading: false });
-        }
+      .user(this.state.authUid).on('value', snapshot => {
+        // console.log(snapshot.child("pantry_items").val());
+        this.state.localpantry = snapshot.child("pantry_items").val();
       });
   }
 
@@ -134,20 +122,21 @@ class PantryItemsBase extends Component {
       // </AuthUserContext.Consumer>
       // <AuthUserContext.Consumer>
       <div id="main">
-        {/* Pantry */}
-        <h2>
-          {this.state.localpantry.map((ingredient,index) =>
-            <tr>
-              <td>{ingredient}</td>
-              <button
+        {this.state.localpantry && (
+          <h2>
+            {this.state.localpantry.map((ingredient, index) =>
+              <tr>
+                <td>{ingredient}</td>
+                <button
                   type="button"
                   onClick={this.onRemovePantryItem(index)}
                 >
                   Delete
               </button>
-            </tr>
-          )}
-        </h2>
+              </tr>
+            )}
+          </h2>
+        )}
         <input
           type="text"
           placeholder="Enter ingredient to add"
