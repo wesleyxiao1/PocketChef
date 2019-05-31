@@ -55,14 +55,15 @@ class PantryItemsBase extends Component {
       }
     }
     this.setState({
-      localpantry: temparray
+      localpantry: temparray,
+      tempshit:''
     });
     // console.log(this.state.localpantry);
     // this.setState({
     //   localpantry: newPantry
     // });
     // this.state.localpantry = newPantry;
-    console.log("new pantry");
+    // console.log("new pantry");
     // console.log(this.state.localpantry);
     this.props.firebase.user(this.state.authUid).update({
       pantry_items: this.state.localpantry
