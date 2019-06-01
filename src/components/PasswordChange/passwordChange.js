@@ -1,6 +1,36 @@
 import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white,
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
 const INITIAL_STATE = {
   passwordOne: '',
@@ -44,24 +74,44 @@ class PasswordChangeForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
+
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="New Password"
           name="passwordOne"
-          value={passwordOne}
           onChange={this.onChange}
+          autoComplete="passwordOne"
+          autoFocus
           type="password"
-          placeholder="New Password"
         />
-        <input
+
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Confirm New Password"
           name="passwordTwo"
-          value={passwordTwo}
           onChange={this.onChange}
+          autoComplete="passwordTwo"
+          autoFocus
           type="password"
-          placeholder="Confirm New Password"
         />
         {changedEmail?<p>New Password has been Set.</p>: null}
         <button disabled={isInvalid} type="submit">
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={useStyles.submit}
+          disabled={isInvalid} 
+        >
           Reset My Password
-        </button>
+        </Button>
         {error && <p>{error.message}</p>}
       </form>
     );

@@ -3,11 +3,31 @@ import { compose } from 'recompose';
 
 import { withAuthorization, withEmailVerification, AuthUserContext, } from '../Session';
 import { withFirebase } from '../Firebase';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core';
+import blue from '@material-ui/core/colors/blue';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
+const useStyles = makeStyles(theme => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white,
+    },
+  },
+}));
+
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+  },
+});
 
 const PantryPage = () => (
   <div>
-    <h1>Pantry Page</h1>
-    <p>The Pantry Page is accessible by every signed in user.</p>
+    <Typography variant="h3" component="h2" align="center"> My Pantry </Typography>
+    <Typography variant="h6" component="h6" align="center">Welcome to Your Personalized Pantry!</Typography>
 
     <PantryItems />
   </div>
@@ -139,6 +159,7 @@ class PantryItemsBase extends Component {
       //   )}
       // </AuthUserContext.Consumer>
       // <AuthUserContext.Consumer>
+      <MuiThemeProvider theme={theme}>
       <div id="main">
         {this.state.localpantry && (
           <h2>
@@ -155,40 +176,55 @@ class PantryItemsBase extends Component {
             )}
           </h2>
         )}
-        <input
-          type="text"
-          placeholder="Enter ingredient to add"
-          name="newIngredient"
-          id="ingredient-input"
-          value={this.state.text}
-          onChange={this.onChangeText}
-          required />
-        <button
+        <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            id="ingredient-input"
+            label="Enter ingredient to add"
+
+            autoComplete="ingredient"
+            autoFocus
+            name="newIngredient"
+            value={this.state.text}
+            onChange={this.onChangeText}
+        />
+        <Button
           type="submit"
           id="additem"
           onClick={this.onCreatePantryItem}
-          class="btn btn-primary"
+          variant="contained"
+          color="primary"
+          className={useStyles.submit}
         >
           Add to Pantry
-                  </button>
-                  <input
-          type="text"
-          placeholder="Enter ingredient to delete"
-          name="remval"
-          id="ingredient-removal"
-          value={this.state.tempshit}
-          onChange={this.onChangeText2}
-          required />
-        <button
+        </Button>
+        <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            id="ingredient-removal"
+            label="Enter ingredient to delete"
+
+            autoComplete="ingredient2"
+            autoFocus
+            name="remval"
+            value={this.state.tempshit}
+            onChange={this.onChangeText2}
+        />
+      <Button
           type="submit"
           id="removeitem"
           onClick={this.onRemovePantryItem}
-          class="btn btn-primary"
+          variant="contained"
+          color="primary"
+          className={useStyles.submit}
         >
-          remove from pantry
-                  </button>
-      </div>
-      // </AuthUserContext.Consumer> 
+          Remove from Pantry
+        </Button>
+        </div>
+      </MuiThemeProvider>
+      // </AuthUserContext.Consumer>  
 
     );
   }

@@ -60,7 +60,7 @@ const PasswordForgetPage = () => (
     </Avatar>
     </div>
     <Typography component="h1" variant="h5" align="center">
-      Password Recorvey
+      Password Recovery
     </Typography>
     <PasswordForgetForm />
   </MuiThemeProvider>

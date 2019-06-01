@@ -1,9 +1,4 @@
-body{
-    background: rgba(40,173,230,1);
-    background: -moz-linear-gradient(top, rgba(40,173,230,1) 40%, rgba(40,173,230,1) 41%, rgba(82,196,235,1) 93%, rgba(82,196,235,1) 100%);
-    background: -webkit-gradient(left top, left bottom, color-stop(40%, rgba(40,173,230,1)), color-stop(41%, rgba(40,173,230,1)), color-stop(93%, rgba(82,196,235,1)), color-stop(100%, rgba(82,196,235,1)));
 
-}
 .navigationbar {
   border-radius: 10px 10px 10px 10px;
   -moz-border-radius: 10px 10px 10px 10px;

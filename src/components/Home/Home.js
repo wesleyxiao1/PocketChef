@@ -30,6 +30,9 @@ import { ListItemText, ListItem } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core';
+import blue from '@material-ui/core/colors/blue';
+
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -59,6 +62,12 @@ const useStyles = makeStyles(theme => ({
     marginTop:'30'
   },
 }));
+
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+  },
+});
 
 class HomePageBase extends Component {
 
@@ -124,6 +133,7 @@ class HomePageBase extends Component {
   render(){
     console.log("In Home render");
     return(
+      <MuiThemeProvider theme={theme}>
       <div>
         <MenuItem
           primaryText="Profile"
@@ -157,6 +167,7 @@ class HomePageBase extends Component {
                 }
         </List>
       </div>
+      </MuiThemeProvider>
     )
   }
 
