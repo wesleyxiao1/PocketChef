@@ -48,24 +48,25 @@ const NavigationAuth = () => (
   <MuiThemeProvider theme={theme}>
     <AppBar position="static">
       <Toolbar>
-      <IconButton edge="start" color="inherit" aria-label="Menu">
-            <MenuIcon />
-      </IconButton>
+      {//<IconButton edge="start" color="inherit" aria-label="Menu">
+         //   <MenuIcon />
+      //<//IconButton>
+    }
       <Typography variant="h5" marginRight="theme.spacing(10)">
             Pocket Chef
       </Typography>
-      <Button component={Link} to={ROUTES.LANDING} color="inherit" className={useStyles.button}>
+      {/* <Button component={Link} to={ROUTES.LANDING} color="inherit" className={useStyles.button}>
         Landing
-      </Button>
+      </Button> */}
       <Button component={Link} to={ROUTES.HOME} color="inherit" className={useStyles.button}>
         Home
       </Button>
       <Button component={Link} to={ROUTES.ACCOUNT} color="inherit" className={useStyles.button}>
         Account
       </Button>
-      <Button component={Link} to={ROUTES.ADMIN} color="inherit" className={useStyles.button}>
+      {/* <Button component={Link} to={ROUTES.ADMIN} color="inherit" className={useStyles.button}>
         Admin
-      </Button>
+      </Button> */}
       <Button component={Link} to={ROUTES.PANTRY} color="inherit" className={useStyles.button}>
         Pantry
       </Button>
@@ -83,9 +84,10 @@ const NavigationNonAuth = () => (
   <MuiThemeProvider theme={theme}>
   <AppBar position="static">
   <Toolbar>
-    <IconButton edge="start" color="inherit" aria-label="Menu">
-          <MenuIcon />
-    </IconButton>
+    {//<IconButton edge="start" color="inherit" aria-label="Menu">
+       //   <MenuIcon />
+    //</IconButton>
+    }
     <Typography variant="h5">
           Pocket Chef
     </Typography>

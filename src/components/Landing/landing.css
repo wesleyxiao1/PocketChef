@@ -1,0 +1,27 @@
+.Landing-Style{
+   text-align: center; text-shadow: 0 1px 1px #000; 
+   margin-bottom: 0px; margin-top: 40px; 
+   color: #d54d7b; font-family: "Great Vibes", cursive;
+}
+
+.Header-PocketChef{
+   color: #d54d7b; font-family: "Great Vibes", cursive; font-size: 100px; 
+   line-height: 100px; font-weight: normal; margin-bottom: 0px; margin-top: 40px; 
+   text-align: center; text-shadow: 0 1px 1px #fff; 
+    
+}
+
+.pocket-Chef-Image{
+   border-radius: 16px;
+   margin-bottom: 0px; margin-top: 20px;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 50%;
+   
+}
+
+.stack-8{
+   height: 96px;
+   width: 96px;
+}
