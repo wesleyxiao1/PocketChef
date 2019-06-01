@@ -18,7 +18,15 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
+
+
+    /* Helper */
+
+    this.serverValue = app.database.ServerValue;
+    this.emailAuthProvider = app.auth.EmailAuthProvider;
   }
+
+  
 
   // *** Auth API ***
 
@@ -43,9 +51,9 @@ class Firebase {
 
   // *** Pantry API ***
 
-  pantry_item = uid => this.db.ref(`pantry_items/${uid}`);
+  pantry_item = uid => this.db.ref(`users/`);
 
-  pantry_items = () => this.db.ref('pantry_items');
+  pantry_items = uid => this.db.ref(`users/${uid}`);
 }
 
 export default Firebase;

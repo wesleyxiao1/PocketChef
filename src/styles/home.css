@@ -5,31 +5,29 @@ body{
 
 }
 .navigationbar {
-    border-radius: 10px 10px 10px 10px;
-    -moz-border-radius: 10px 10px 10px 10px;
-    -webkit-border-radius: 10px 10px 10px 10px;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
+  border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
   }
   
-  li {
-    float: left;
-
-  }
+.navigationbar  li {
+  float: left;
+}
   
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-
-  }
+.navigationbar  li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
   
-  li a:hover:not(.active) {
+.navigationbar  li a:hover:not(.active) {
     background-color: #111;
   }
   
@@ -162,17 +160,48 @@ span.psw {
  .search-btn > i {
   font-size: 30px;
  }
- 
- .search-txt {
-  border: none;
-  background: none;
-  outline: none;
-  float: left;
-  padding: 0;
-  color: white;
-  font-size: 16px;
-  transition: 0.4s;
-  line-height: 40px;
-  width: 0px;
-  font-weight: bold;
- }
+.searchResults{
+  border: 15px solid white;
+  padding: 20px;
+  margin: 20px;
+}
+
+.results{
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  list-style-type: none;
+  overflow: hidden;
+  background-color: #FFF;
+}
+
+.results li{ 
+  float: center;
+}
+
+.results li a{ 
+  float: top;
+  border: 1px solid #FFF; /* Add a border to all links */
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #FFF; /* Grey background color */
+  padding: 12px; /* Add some padding */
+  text-decoration: none; /* Remove default text underline */
+  font-size: 18px; /* Increase the font-size */
+  color: rgba(40,173,230,1); /* Add a black text color */
+  display: block; /* Make it into a block element to fill the whole list */
+}
+
+
+img {
+ max-width: 350px;
+ max-height: 350px;
+}
+
+
+.results li a:hover:not(.header) {
+  background-color: #FFF; /* Add a hover effect to all links, except for headers */
+}
