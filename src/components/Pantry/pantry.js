@@ -9,6 +9,8 @@ import {MuiThemeProvider, createMuiTheme} from '@material-ui/core';
 import blue from '@material-ui/core/colors/blue';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import {Grid, Paper} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -161,6 +163,7 @@ class PantryItemsBase extends Component {
       // <AuthUserContext.Consumer>
       <MuiThemeProvider theme={theme}>
       <div id="main">
+      <Container component="main" maxWidth="xs">
         {this.state.localpantry && (
           <h2>
             {this.state.localpantry.map((ingredient, index) =>
@@ -176,52 +179,65 @@ class PantryItemsBase extends Component {
             )}
           </h2>
         )}
-        <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            id="ingredient-input"
-            label="Enter ingredient to add"
+        </Container>
+        <Grid container spacing={3}>
+        <Grid item xs={3}></Grid>
+          <Grid item xs={3} style={{textAlign: "center"}}>
+              <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  id="ingredient-input"
+                  label="Enter ingredient to add"
 
-            autoComplete="ingredient"
-            autoFocus
-            name="newIngredient"
-            value={this.state.text}
-            onChange={this.onChangeText}
-        />
-        <Button
-          type="submit"
-          id="additem"
-          onClick={this.onCreatePantryItem}
-          variant="contained"
-          color="primary"
-          className={useStyles.submit}
-        >
-          Add to Pantry
-        </Button>
-        <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            id="ingredient-removal"
-            label="Enter ingredient to delete"
+                  autoComplete="ingredient"
+                  autoFocus
+                  name="newIngredient"
+                  value={this.state.text}
+                  onChange={this.onChangeText}
+                  style={{width: 250}}
+              />
+              <br></br>
+              <Button
+                type="submit"
+                id="additem"
+                onClick={this.onCreatePantryItem}
+                variant="contained"
+                color="primary"
+                className={useStyles.submit}
+              >
+                Add to Pantry
+              </Button>
+          </Grid>
+          <Grid item xs={3} style={{textAlign: "center"}}>
+              <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  id="ingredient-removal"
+                  label="Enter ingredient to delete"
 
-            autoComplete="ingredient2"
-            autoFocus
-            name="remval"
-            value={this.state.tempshit}
-            onChange={this.onChangeText2}
-        />
-      <Button
-          type="submit"
-          id="removeitem"
-          onClick={this.onRemovePantryItem}
-          variant="contained"
-          color="primary"
-          className={useStyles.submit}
-        >
-          Remove from Pantry
-        </Button>
+                  autoComplete="ingredient2"
+                  autoFocus
+                  name="remval"
+                  value={this.state.tempshit}
+                  onChange={this.onChangeText2}
+                  style={{width: 250}}
+              />
+              <br></br>
+            <Button
+                type="submit"
+                id="removeitem"
+                onClick={this.onRemovePantryItem}
+                variant="contained"
+                color="primary"
+                className={useStyles.submit}
+              >
+                Remove from Pantry
+              </Button>
+          </Grid>
+          <Grid item xs={3}></Grid>
+        </Grid>
         </div>
       </MuiThemeProvider>
       // </AuthUserContext.Consumer>  

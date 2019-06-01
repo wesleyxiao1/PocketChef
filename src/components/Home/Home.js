@@ -32,6 +32,21 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core';
 import blue from '@material-ui/core/colors/blue';
+import Menu from '@material-ui/core/Menu';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Input from '@material-ui/core/Input';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FilledInput from '@material-ui/core/FilledInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Select from '@material-ui/core/Select';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+import ListSubheader from '@material-ui/core/ListSubheader';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -61,6 +76,22 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '56.25%', // 16:9,
     marginTop:'30'
   },
+
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    width: 500,
+    height: 450,
+  },
+  icon: {
+    color: 'rgba(255, 255, 255, 0.54)',
+  },
+
 }));
 
 const theme = createMuiTheme({
@@ -68,6 +99,9 @@ const theme = createMuiTheme({
     primary: blue,
   },
 });
+
+
+
 
 class HomePageBase extends Component {
 
@@ -80,6 +114,7 @@ class HomePageBase extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
   }
+  
   goToPantry(current){
     ReactDOM.render(<Pantry/>, document.getElementById("root"));
   }
@@ -123,6 +158,8 @@ class HomePageBase extends Component {
 
   }
 
+
+
     /*axios.get('https://api.edamam.com/search?q=chicken&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=3&calories=59')
       //.then((data) => this.setState({results: data.hits[0].recipe.label}))
       */
@@ -135,9 +172,23 @@ class HomePageBase extends Component {
     return(
       <MuiThemeProvider theme={theme}>
       <div>
-        <MenuItem
-          primaryText="Profile"
-        />
+
+        <FormControl variant="outlined" fullWidth className={useStyles.formControl}>
+          <FormLabel component="legend" align="center" fullWidth>Filters</FormLabel>
+
+            <Select
+
+              input={<OutlinedInput  name="filter"  id="outlined-filter" />}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value=''>Filter1</MenuItem>
+              <MenuItem value=''>Filter2</MenuItem>
+              <MenuItem value=''>Filter3</MenuItem>
+            </Select>
+        </FormControl>
+
         <Button
           type="search"
           fullWidth
@@ -147,6 +198,23 @@ class HomePageBase extends Component {
         >
             Search
         </Button>
+
+        <GridList cellHeight={180} className={useStyles.gridList}>
+        {this.state.data.map((item,i) => (
+          <GridListTile key={item.recipe.image}>
+            <img src={item.recipe.image} alt={item.recipe.label} />
+            <GridListTileBar
+              title={item.recipe.label}
+              actionIcon={
+                <IconButton className={useStyles.icon}>
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+
         <List>
           {this.state.data.map((item, i) => {
                   return(
@@ -166,6 +234,8 @@ class HomePageBase extends Component {
                 })
                 }
         </List>
+
+
       </div>
       </MuiThemeProvider>
     )

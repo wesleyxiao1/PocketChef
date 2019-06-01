@@ -7,6 +7,7 @@ import { withAuthorization } from '../Session';
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core';
 import blue from '@material-ui/core/colors/blue';
 import Container from '@material-ui/core/Container';
+import './account.css';
 
 const theme = createMuiTheme({
   palette: {
@@ -21,12 +22,14 @@ const AccountPage = () => (
       <div>
         <h1>Account: {authUser.email}</h1>
         <Container component="main" maxWidth="xs">
-        <h2>Forgot Password? Enter email down below</h2>
-        <PasswordForgetForm />
-        <br/>
-        <br/>
-        <h2>Reset Password? Enter new password down below</h2>
-        <PasswordChangeForm />
+          <h1 id="accountPass">Forgot Password? </h1>
+          <h3 id="accountPass">Enter email down below</h3>
+          <PasswordForgetForm />
+          <br/>
+          <br/>
+          <h1 id="accountPass">Reset Password? </h1>
+          <h3 id="accountPass">Enter new password down below</h3>
+          <PasswordChangeForm />
         </Container>
       </div>
     )}

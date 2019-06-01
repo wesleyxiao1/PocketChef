@@ -57,15 +57,7 @@
       -webkit-border-radius: 0px 10px 0px 10px;
   }
 
-/* Full-width input fields */
- input[type=password] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
+
 
 #login-input{
   width: 100%;
