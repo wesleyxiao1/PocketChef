@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   error: null,
+  changedEmail: false,
 };
 
 class PasswordChangeForm extends Component {
@@ -22,6 +23,7 @@ class PasswordChangeForm extends Component {
       .doPasswordUpdate(passwordOne)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
+        this.setState({ changedEmail: true})
       })
       .catch(error => {
         this.setState({ error });
@@ -35,7 +37,7 @@ class PasswordChangeForm extends Component {
   };
 
   render() {
-    const { passwordOne, passwordTwo, error } = this.state;
+    const { passwordOne, passwordTwo, error,changedEmail } = this.state;
 
     const isInvalid =
       passwordOne !== passwordTwo || passwordOne === '';
@@ -56,10 +58,10 @@ class PasswordChangeForm extends Component {
           type="password"
           placeholder="Confirm New Password"
         />
+        {changedEmail?<p>New Password has been Set.</p>: null}
         <button disabled={isInvalid} type="submit">
           Reset My Password
         </button>
-
         {error && <p>{error.message}</p>}
       </form>
     );

@@ -70,13 +70,14 @@ const PasswordForgetPage = () => (
 const INITIAL_STATE = {
   email: '',
   error: null,
+  emailSentConfirmations: false,
 };
 
 class PasswordForgetFormBase extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { ...INITIAL_STATE };
+    this.state = { ...INITIAL_STATE};
   }
 
   onSubmit = event => {
@@ -86,6 +87,7 @@ class PasswordForgetFormBase extends Component {
       .doPasswordReset(email)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
+        this.setState({emailSentConfirmations: true})
       })
       .catch(error => {
         this.setState({ error });
@@ -99,7 +101,7 @@ class PasswordForgetFormBase extends Component {
   };
 
   render() {
-    const { email, error } = this.state;
+    const { email, error,emailSentConfirmations } = this.state;
 
     const isInvalid = email === '';
 
@@ -118,6 +120,7 @@ class PasswordForgetFormBase extends Component {
           autoComplete="email"
           autoFocus
         />
+        {emailSentConfirmations?<p>Reset link sent to your email!</p>: null}
         <Button
           type="submit"
           fullWidth
@@ -129,6 +132,7 @@ class PasswordForgetFormBase extends Component {
           Reset My Password
         </Button>
         {error && <p>{error.message}</p>}
+        
       </form>
     );
   }
