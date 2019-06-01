@@ -101,7 +101,6 @@ class PasswordChangeForm extends Component {
           type="password"
         />
         {changedEmail?<p>New Password has been Set.</p>: null}
-        <button disabled={isInvalid} type="submit">
         <Button
           type="submit"
           fullWidth
