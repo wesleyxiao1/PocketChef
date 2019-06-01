@@ -11,6 +11,7 @@ import {MuiThemeProvider, createMuiTheme} from '@material-ui/core'
 import {blue, grey} from '@material-ui/core/colors/'
 import SignOutButton from '../SignOut/signout';
 import * as ROUTES from '../../constants/routes';
+import './navbar.css'
 
 import { AuthUserContext } from '../Session';
 
@@ -25,6 +26,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(5),
   },
 }));
+
 
 const theme = createMuiTheme({
   palette: {
@@ -48,16 +50,13 @@ const NavigationAuth = () => (
   <MuiThemeProvider theme={theme}>
     <AppBar position="static">
       <Toolbar>
-      {//<IconButton edge="start" color="inherit" aria-label="Menu">
-         //   <MenuIcon />
-      //<//IconButton>
-    }
-      <Typography variant="h5" marginRight="theme.spacing(10)">
-            Pocket Chef
-      </Typography>
-      {/* <Button component={Link} to={ROUTES.LANDING} color="inherit" className={useStyles.button}>
-        Landing
-      </Button> */}
+      <img className="NavPicture" src={require('../../images/mini-pocket-chef.jpg')} 
+        style={{width:100, marginTop: -7}}/>
+      <Button component={Link} to={ROUTES.LANDING} color="inherit" className={useStyles.button}>
+        <Typography variant="h5" marginRight="theme.spacing(10)">
+              Pocket Chef
+        </Typography>
+      </Button>
       <Button component={Link} to={ROUTES.HOME} color="inherit" className={useStyles.button}>
         Home
       </Button>
@@ -84,15 +83,13 @@ const NavigationNonAuth = () => (
   <MuiThemeProvider theme={theme}>
   <AppBar position="static">
   <Toolbar>
-    {//<IconButton edge="start" color="inherit" aria-label="Menu">
-       //   <MenuIcon />
-    //</IconButton>
-    }
+  <img className="NavPicture" src={require('../../images/mini-pocket-chef.jpg')} 
+        style={{width:100, marginTop: -7}}/>
+    
+    <Button component={Link} to={ROUTES.LANDING} color="inherit" className={useStyles.button}>
     <Typography variant="h5">
           Pocket Chef
     </Typography>
-    <Button component={Link} to={ROUTES.LANDING} color="inherit" className={useStyles.button}>
-        Landing
     </Button>
     <Typography style={{flex: 1}}></Typography>
     <Button component={Link} to={ROUTES.LOGIN} color="inherit"  className={useStyles.button} >

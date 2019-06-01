@@ -11,16 +11,18 @@ class Landing extends React.Component {
           <img src={require('../../images/poketche.JPG')} alt="pocket-Chef-Image" className="pocket-Chef-Image"/>
         </div>
 
-
+        <br/>
+        <br/>
         <div className="HowtoPocketChef">
-          <h2>How to Pocket Chef</h2>
-          <p>Three simples Steps</p>
+          <h1>How to Pocket Chef</h1>
+          <h2>Three simples Steps</h2>
         </div>
-
+        <br/>
+        <br/>
         <div className="howToPocketChef">
           <div className="Add" >
             <h2>Add ingredients</h2>
-            <img src={require('../../images/icons8-add-64.png')}/>
+            <img src={require('../../images/Add-item-icon.png')} style={{width: 600, height: 600}}/>
           </div>
           
           <div className="Search" > 
