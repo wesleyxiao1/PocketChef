@@ -1,52 +1,32 @@
-import React ,{ Component, useState, useEffect } from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React ,{ Component } from 'react'
+import { Link } from "react-router-dom";
 import ReactDOM from 'react-dom';
 
 import { compose } from 'recompose';
-import Header from '../Header/header'
-import Footer from '../Footer/footer'
-import Nav from '../Navbar/navbar';
 import '../../styles/home.css';
 import Pantry from '../Pantry/pantry';
-import { withFirebase } from '../Firebase';
 import { withRouter } from 'react-router-dom';
-import { withAuthorization } from '../Session';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
-import Switch from '@material-ui/core/Switch';
-import yellow from '@material-ui/core/colors/yellow';
+import { withAuthorization, } from '../Session';
+import { withFirebase } from '../Firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import List from '@material-ui/core/List';
-import Checkbox from '@material-ui/core/Checkbox';
-import * as ROUTES from '../../constants/routes';
-import { ListItemText, ListItem } from '@material-ui/core';
+import { ListItem } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core';
 import blue from '@material-ui/core/colors/blue';
-import Menu from '@material-ui/core/Menu';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import Input from '@material-ui/core/Input';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FilledInput from '@material-ui/core/FilledInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import ListSubheader from '@material-ui/core/ListSubheader';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -105,17 +85,21 @@ const theme = createMuiTheme({
 
 class HomePageBase extends Component {
 
+  
   constructor(props){
     super(props);
     this.state = {
       data: [],
       videoData: [],
-      showPopup: false
+      loading: false,
+      localpantry: [],
+      authUid: this.props.firebase.auth.O,
+      pantryString: ''
     };
     this.handleClick = this.handleClick.bind(this);
   }
   
-  goToPantry(current){
+  goToPantry(){
     ReactDOM.render(<Pantry/>, document.getElementById("root"));
   }
 
@@ -133,33 +117,41 @@ class HomePageBase extends Component {
   }*/
 
   handleClick() {
-    fetch(`https://api.edamam.com/search?q=chicken&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10&calories=59`)
+  fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10&calories=59`)
       .then(res => res.json())
       .then(json => this.setState({ data: json.hits }));
   }
-  
-  togglePopup() {  
-    this.setState({  
-         showPopup: !this.state.showPopup  
-    });  
+
+  setPantryString(){
+    {this.state.localpantry.map((ingredient) =>
+     this.state.pantryString = this.state.pantryString + ingredient
+    )}
   }
+
+  componentDidMount() {
+    this.setState({ loading: true });
+
+    this.props.firebase
+      .user(this.state.authUid).on('value', snapshot => {
+        // console.log(snapshot.child("pantry_items").val());
+        this.setState({
+          localpantry: snapshot.child("pantry_items").val()
+        });
+        this.state.localpantry = snapshot.child("pantry_items").val();
+      });
+    
+    this.setPantryString();
+  }
+
+  componentWillUnmount() {
+    this.props.firebase.pantry_items().off();
+  }
+  
   /*handleClick() {
     fetch(`https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken`)
       .then(res => res.json())
       .then(json => this.setState({ data: json.recipes }));
   }*/
-
-  onTileTouch(name){
-    //display the youtube API
-  }
-  
-  addToFavourites(uri){
-    //add the URI to the users favorites
-
-  }
-
-
-
     /*axios.get('https://api.edamam.com/search?q=chicken&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=3&calories=59')
       //.then((data) => this.setState({results: data.hits[0].recipe.label}))
       */
@@ -168,7 +160,7 @@ class HomePageBase extends Component {
       .then(response => this.setState({recipeName: response.data.recipes[0].title}))
   }*/
   render(){
-    console.log("In Home render");
+
     return(
       <MuiThemeProvider theme={theme}>
       <div>
@@ -200,7 +192,7 @@ class HomePageBase extends Component {
         </Button>
 
         <GridList cellHeight={180} className={useStyles.gridList}>
-        {this.state.data.map((item,i) => (
+        {this.state.data.map((item) => (
           <GridListTile key={item.recipe.image}>
             <img src={item.recipe.image} alt={item.recipe.label} />
             <GridListTileBar
@@ -216,7 +208,7 @@ class HomePageBase extends Component {
       </GridList>
 
         <List>
-          {this.state.data.map((item, i) => {
+          {this.state.data.map((item) => {
                   return(
                     <ListItem>
                         <Grid container>
@@ -250,12 +242,18 @@ const HomePage = () => (
       <HomePageList/>
     </div>
   </Container>
+  
 );
 
-const HomePageList = compose(
+/*const HomePageList = compose(
   withRouter,
 )(HomePageBase);
+*/
+const HomePageList = withFirebase(HomePageBase);
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(HomePage);
+export default compose(
+
+  withAuthorization(condition),
+)(HomePage);
