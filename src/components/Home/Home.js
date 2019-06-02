@@ -123,7 +123,7 @@ class HomePageBase extends Component {
   }
 
   setPantryString(){
-    this.state.pantryString = this.state.localpantry.join(', ');
+    this.state.pantryString = this.state.localpantry.join('+');
     console.log(this.state.pantryString);
   }
 
