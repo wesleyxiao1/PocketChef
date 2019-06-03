@@ -88,7 +88,7 @@ function VideoPage( match ){
                 Recipe Video Page
               </Typography>
               <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                Here are some examples of similar recipes on Youtube for a visualing experience.
+                Here are some examples of similar recipes on Youtube for a visual example.
               </Typography>
               <div className={classes.heroButtons}>
                 <Grid container spacing={2} justify="center">
@@ -126,10 +126,10 @@ function VideoPage( match ){
                     <CardActions>
                     <Button size="small" color="primary" onClick={ () => 
                         window.open(`https://www.youtube.com/watch?v=${card.id.videoId}`,'_blank')}>
-                        View
+                        View Video
                     </Button>
                     <Button component={Link} to={ROUTES.HOME} color="primary" className={useStyles.button}>
-                        Edit
+                        Back Home
                     </Button>
                     </CardActions>
                   </Card>

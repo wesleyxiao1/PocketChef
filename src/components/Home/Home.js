@@ -4,7 +4,12 @@ import ReactDOM from 'react-dom';
 
 import { compose } from 'recompose';
 import '../../styles/home.css';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 import Pantry from '../Pantry/pantry';
+import Typography from '@material-ui/core/Typography';
 import { withAuthorization, } from '../Session';
 import { withFirebase } from '../Firebase';
 import { makeStyles } from '@material-ui/core/styles';
@@ -82,8 +87,29 @@ const useStyles = makeStyles(theme => ({
   },
   media: {
     height: 20,
+    component: "img",
     paddingTop: '56.25%', // 16:9,
     marginTop:'30'
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+    height: 0
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
   },
 
   root: {
@@ -169,7 +195,7 @@ class HomePageBase extends Component {
   var dataLength = 0;
   while((dataLength == 0)){
     this.setPantryString(attempts);
-    dataLength = await fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=87c18f5b&app_key=1ecd65def7f69302996bd63e58d89c50&from=0&to=10${this.state.filters}`)
+    dataLength = await fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=87c18f5b&app_key=1ecd65def7f69302996bd63e58d89c50&from=0&to=40${this.state.filters}`)
       .then(res => res.json())
       .then(json => {
         this.setState({ data: json.hits });
@@ -244,19 +270,6 @@ class HomePageBase extends Component {
     }
     this.props.firebase.pantry_items().off();
   }
-  
-  /*handleClick() {
-    fetch(`https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken`)
-      .then(res => res.json())
-      .then(json => this.setState({ data: json.recipes }));
-  }*/
-    /*axios.get('https://api.edamam.com/search?q=chicken&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=3&calories=59')
-      //.then((data) => this.setState({results: data.hits[0].recipe.label}))
-      */
-  /*handleClick () {
-    axios.get('https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken')
-      .then(response => this.setState({recipeName: response.data.recipes[0].title}))
-  }*/
 
   render(){
     return(
@@ -303,7 +316,7 @@ class HomePageBase extends Component {
         >
             Search
         </Button>
-        <List>
+        {/*<List>
           {this.state.data.map((item) => {
                   return(
                     <ListItem>
@@ -321,10 +334,39 @@ class HomePageBase extends Component {
                   );
                 })
                 }
-        </List>
-
-
+              </List>*/}
       </div>
+      <React.Fragment>
+        <CssBaseline />
+        <main>
+          <Container className={useStyles.cardGrid} maxWidth="md">
+            {/* End hero unit */}
+            <Grid container spacing={4}>
+              {this.state.data.map(card => (
+                <Grid item key={card} xs={12} sm={6} md={4}>
+                  <Card className={useStyles.card}> 
+                    <CardMedia
+                      style = {{ height: 20, paddingTop: '56%'}}
+                      image={card.recipe.image}
+                    />
+                    <CardContent className={useStyles.cardContent}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {card.recipe.label}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                    <Button component={Link} to={`/home/${card.recipe.label}`} color="primary" className={useStyles.button}>
+                        Related Videos
+                    </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </main>
+        {/* End footer */}
+      </React.Fragment>
       </MuiThemeProvider>
     )
   }
@@ -332,9 +374,9 @@ class HomePageBase extends Component {
 }
 
 const HomePage = () => (
-  <Container component="main" maxWidth="xs">
+  <Container component="main">
   <CssBaseline />
-    <div className={useStyles.paper}>
+    <div>
       <HomePageList/>
     </div>
   </Container>
