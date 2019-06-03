@@ -98,7 +98,11 @@ class HomePageBase extends Component {
       filters: ''
     };
     this.handleClick = this.handleClick.bind(this);
-    this.setFilters = this.setFilters.bind(this);
+    this.setFiberFilter = this.setFiberFilter.bind(this);
+    this.setProteinFilter = this.setProteinFilter.bind(this);
+    this.setGlutenFilter = this.setGlutenFilter.bind(this);
+    this.setPorkFilter = this.setPorkFilter.bind(this);
+    this.setKetoFilter = this.setKetoFilter.bind(this);
     this.resetFilters = this.resetFilters.bind(this);
   }
   
@@ -120,6 +124,7 @@ class HomePageBase extends Component {
   }*/
 
   handleClick() {
+  console.log(this.state.filters);
   fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10${this.state.filters}`)
       .then(res => res.json())
       .then(json => this.setState({ data: json.hits }));
@@ -134,10 +139,27 @@ class HomePageBase extends Component {
     this.state.pantryString = this.state.localpantry.join('+');
     console.log(this.state.pantryString);
   }
-  setFilters(filter){
-    this.state.filters = '&'.concat(filter);
+  setKetoFilter(){
+    this.state.filters = '&health=keto-friendly';
     console.log(this.state.filters);
   }
+  setGlutenFilter(){
+    this.state.filters = '&health=gluten-free';
+    console.log(this.state.filters);
+  }
+  setPorkFilter(){
+    this.state.filters = '&health=pork-free';
+    console.log(this.state.filters);
+  }
+  setProteinFilter(){
+    this.state.filters = '&diet=high-protein';
+    console.log(this.state.filters);
+  }
+  setFiberFilter(){
+    this.state.filters = '&diet=high-fiber';
+    console.log(this.state.filters);
+  }
+
   resetFilters(){
     this.state.filters= '';
     console.log(this.state.filters);
@@ -157,7 +179,7 @@ class HomePageBase extends Component {
         console.log(this.state.localpantry);
       });
     
-    this.setPantryString();
+    //this.setPantryString();
   }
 
   componentWillUnmount() {
@@ -182,27 +204,18 @@ class HomePageBase extends Component {
 
   render(){
     return(
+      
       <MuiThemeProvider theme={theme}>
       <div>
-
-        <FormControl variant="outlined" fullWidth className={useStyles.formControl}>
-          <FormLabel component="legend" align="center" fullWidth>Filters</FormLabel>
-
-            <Select
-
-              input={<OutlinedInput  name="filter"  id="outlined-filter" />}
-            >
-              <MenuItem onClick={this.resetFilters}>
-                <em>None</em>
-              </MenuItem>
-              <MenuItem onClick={this.setFilters('keto-friendly')}>Keto Friendly</MenuItem>
-              <MenuItem onClick={this.setFilters('gluten-free')}>Gluten Free</MenuItem>
-              <MenuItem onClick={this.setFilters('pork-free')}>Pork Free</MenuItem>
-              <MenuItem onClick={this.setFilters('high-fiber')}>High Fiber</MenuItem>
-              <MenuItem onClick={this.setFilters('high-protein')}>High Protein</MenuItem>
-            </Select>
-        </FormControl>
-
+        {this.setPantryString()}
+        <div> Filters
+        <MenuItem onClick={this.resetFilters}>None</MenuItem>
+        <MenuItem onClick={this.setKetoFilter}>Keto Friendly</MenuItem> 
+        <MenuItem onClick={this.setGlutenFilter}>Gluten Free</MenuItem>
+        <MenuItem onClick={this.setPorkFilter}>Pork Free</MenuItem>
+        <MenuItem onClick={this.setFiberFilter}>High Fiber</MenuItem>
+        <MenuItem onClick={this.setProteinFilter}>High Protein</MenuItem>
+        </div>
         <Button
           type="search"
           fullWidth
