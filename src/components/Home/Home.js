@@ -123,9 +123,8 @@ class HomePageBase extends Component {
   }
 
   setPantryString(){
-    {this.state.localpantry.map((ingredient) =>
-     this.state.pantryString = this.state.pantryString + ingredient
-    )}
+    this.state.pantryString = this.state.localpantry.join('+');
+    console.log(this.state.pantryString);
   }
 
   componentDidMount() {
@@ -133,17 +132,21 @@ class HomePageBase extends Component {
 
     this.props.firebase
       .user(this.state.authUid).on('value', snapshot => {
-        // console.log(snapshot.child("pantry_items").val());
+        console.log(snapshot.child("pantry_items").val());
         this.setState({
           localpantry: snapshot.child("pantry_items").val()
         });
         this.state.localpantry = snapshot.child("pantry_items").val();
+        console.log(this.state.localpantry);
       });
     
     this.setPantryString();
   }
 
   componentWillUnmount() {
+    if (!this.state.localpantry) {
+      this.state.localpantry = [];
+    }
     this.props.firebase.pantry_items().off();
   }
   
