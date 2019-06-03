@@ -117,14 +117,25 @@ class HomePageBase extends Component {
   }*/
 
   handleClick() {
-  fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10&calories=59`)
-      .then(res => res.json())
-      .then(json => this.setState({ data: json.hits }));
+    var attempts=0;
+    //while(this.state.data.length == 0 || attempts <= this.state.localpantry.length){
+    this.setPantryString(attempts);
+      fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10`)
+        .then(res => res.json())
+        .then(json => this.setState({ data: json.hits }));
+    attempts++;
+    //}
   }
 
-  setPantryString(){
+  setPantryString(attempts){
+    var i;
     this.state.pantryString = this.state.localpantry.join('+');
-    console.log(this.state.pantryString);
+    var plusSignes = (this.state.pantryString.split("+").length-1);
+    for(i=attempts; plusSignes-i < plusSignes; i--){
+      var pos = this.state.pantryString.lastIndexOf('+');
+      this.state.pantryString = this.state.pantryString.substring(0,pos);
+    }
+    
   }
 
   componentDidMount() {
