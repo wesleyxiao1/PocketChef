@@ -186,13 +186,14 @@ class HomePageBase extends Component {
 
   setPantryString(attempts){
     var i;
-    this.state.pantryString = this.state.localpantry.join('+');
-    var plusSignes = (this.state.pantryString.split("+").length-1);
-    for(i=attempts; plusSignes-i < plusSignes; i--){
-      var pos = this.state.pantryString.lastIndexOf('+');
-      this.state.pantryString = this.state.pantryString.substring(0,pos);
+    if(this.state.localpantry){
+      this.state.pantryString = this.state.localpantry.join('+');
+      var plusSignes = (this.state.pantryString.split("+").length-1);
+      for(i=attempts; plusSignes-i < plusSignes; i--){
+        var pos = this.state.pantryString.lastIndexOf('+');
+        this.state.pantryString = this.state.pantryString.substring(0,pos);
+      }
     }
-    
   }
   setKetoFilter(){
     this.state.filters = '&health=keto-friendly';
