@@ -164,16 +164,19 @@ class HomePageBase extends Component {
       .then(json => this.setState({ data: json.hits }));
   }*/
 
-  handleButtonClick() {
+  handleButtonClick = async() => {
   var attempts=0;
-  this.setState({dataLength: 0});
-   //while((this.state.dataLength == 0)){
+  var dataLength = 0;
+  while((dataLength == 0)){
     this.setPantryString(attempts);
-    fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=87c18f5b&app_key=1ecd65def7f69302996bd63e58d89c50&from=0&to=10${this.state.filters}`)
+    dataLength = await fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=87c18f5b&app_key=1ecd65def7f69302996bd63e58d89c50&from=0&to=10${this.state.filters}`)
       .then(res => res.json())
-      .then(json => this.setState({ data: json.hits }))
+      .then(json => {
+        this.setState({ data: json.hits });
+        return json.hits.length;
+      })
       .then(attempts++);
-    //}
+    }
   }
   /*handleClick() {
     fetch(`http://www.recipepuppy.com/api/?i=${this.state.pantryString}`)
@@ -263,7 +266,7 @@ class HomePageBase extends Component {
         <PopupState variant="popover" popupId="demo-popup-menu">
           {popupState => (
             <React.Fragment>
-              <Button variant="contained" {...bindTrigger(popupState)}>
+              <Button variant="contained" color="primary" {...bindTrigger(popupState)}>
                 Open Menu
               </Button>
               <Menu {...bindMenu(popupState)}>
