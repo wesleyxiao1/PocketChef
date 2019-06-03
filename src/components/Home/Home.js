@@ -94,9 +94,12 @@ class HomePageBase extends Component {
       loading: false,
       localpantry: [],
       authUid: this.props.firebase.auth.O,
-      pantryString: ''
+      pantryString: '',
+      filters: ''
     };
     this.handleClick = this.handleClick.bind(this);
+    this.setFilters = this.setFilters.bind(this);
+    this.resetFilters = this.resetFilters.bind(this);
   }
   
   goToPantry(){
@@ -117,15 +120,29 @@ class HomePageBase extends Component {
   }*/
 
   handleClick() {
-  fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10&calories=59`)
+  fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10${this.state.filters}`)
       .then(res => res.json())
       .then(json => this.setState({ data: json.hits }));
   }
+  /*handleClick() {
+    fetch(`http://www.recipepuppy.com/api/?i=${this.state.pantryString}`)
+        .then(res => res.json())
+        .then(json => this.setState({ data: json.hits }));
+  }*/
 
   setPantryString(){
     this.state.pantryString = this.state.localpantry.join('+');
     console.log(this.state.pantryString);
   }
+  setFilters(filter){
+    this.state.filters = '&'.concat(filter);
+    console.log(this.state.filters);
+  }
+  resetFilters(){
+    this.state.filters= '';
+    console.log(this.state.filters);
+  }
+  
 
   componentDidMount() {
     this.setState({ loading: true });
@@ -162,8 +179,8 @@ class HomePageBase extends Component {
     axios.get('https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken')
       .then(response => this.setState({recipeName: response.data.recipes[0].title}))
   }*/
-  render(){
 
+  render(){
     return(
       <MuiThemeProvider theme={theme}>
       <div>
@@ -175,12 +192,14 @@ class HomePageBase extends Component {
 
               input={<OutlinedInput  name="filter"  id="outlined-filter" />}
             >
-              <MenuItem value="">
+              <MenuItem onClick={this.resetFilters}>
                 <em>None</em>
               </MenuItem>
-              <MenuItem value=''>Filter1</MenuItem>
-              <MenuItem value=''>Filter2</MenuItem>
-              <MenuItem value=''>Filter3</MenuItem>
+              <MenuItem onClick={this.setFilters('keto-friendly')}>Keto Friendly</MenuItem>
+              <MenuItem onClick={this.setFilters('gluten-free')}>Gluten Free</MenuItem>
+              <MenuItem onClick={this.setFilters('pork-free')}>Pork Free</MenuItem>
+              <MenuItem onClick={this.setFilters('high-fiber')}>High Fiber</MenuItem>
+              <MenuItem onClick={this.setFilters('high-protein')}>High Protein</MenuItem>
             </Select>
         </FormControl>
 
