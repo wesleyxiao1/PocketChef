@@ -168,6 +168,25 @@ class HomePageBase extends Component {
     this.highProteinFilter = dataFromFilters
   }
 
+  filterRecipe(item) {
+    if (item.recipe.dietLabels.indexOf("high-protein") >= 0) {
+      return (
+        <div>
+          <Grid item xs={6}>
+            <img src={item.recipe.image}/>
+          </Grid>
+          <Grid item xs={6} key={item.recipe.label}>
+            <Link to={`/home/${item.recipe.label}`}>
+              {item.recipe.label}
+            </Link>   
+          </Grid>
+        </div>
+      );
+    } else {
+      return <div />
+    }
+  }
+
   render(){
     console.log("In Home render");
     return(
@@ -215,22 +234,15 @@ class HomePageBase extends Component {
 
           <List>
             {this.state.data.map((item, i) => {
-                    return(
-                      <ListItem>
-                          <Grid container>
-                            <Grid item xs={6}>
-                              <img src={item.recipe.image}/>
-                            </Grid>
-                            <Grid item xs={6} key={item.recipe.label}>
-                              <Link to={`/home/${item.recipe.label}`}>
-                                {item.recipe.label}
-                              </Link>   
-                            </Grid>
-                          </Grid> 
-                      </ListItem>
-                    );
-                  })
-                  }
+              return(
+                <ListItem>
+                    <Grid container>
+                      {this.filterRecipe(item)}
+                    </Grid> 
+                </ListItem>
+              );
+            })
+            }
           </List>
 
 
