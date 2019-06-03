@@ -276,10 +276,12 @@ class HomePageBase extends Component {
       
       <MuiThemeProvider theme={theme}>
       <div>
+        <Container maxWidth="md">
         {this.setPantryString()}
         <PopupState variant="popover" popupId="demo-popup-menu">
           {popupState => (
             <React.Fragment>
+              <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               <Button variant="contained" color="primary" {...bindTrigger(popupState)}>
                 Open Menu
               </Button>
@@ -304,18 +306,22 @@ class HomePageBase extends Component {
                   <ListItemText primary = "High Protein"/>
                 </StyledMenuItem>
               </Menu>
+              </Typography>
             </React.Fragment>
           )}
           </PopupState>
-        <Button
-          type="search"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={this.handleButtonClick}
-        >
-            Search
-        </Button>
+          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+            <Button
+            type="search"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={this.handleButtonClick}
+          >
+              Search
+          </Button>
+          </Typography>
+        </Container>
         {/*<List>
           {this.state.data.map((item) => {
                   return(
