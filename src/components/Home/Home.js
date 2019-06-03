@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import { compose } from 'recompose';
 import '../../styles/home.css';
 import Pantry from '../Pantry/pantry';
-import { withRouter } from 'react-router-dom';
 import { withAuthorization, } from '../Session';
 import { withFirebase } from '../Firebase';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,16 +16,46 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import List from '@material-ui/core/List';
-import { ListItem } from '@material-ui/core';
+import { ListItem, ListItemText } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
+import Menu from '@material-ui/core/Menu';
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core';
 import blue from '@material-ui/core/colors/blue';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Select from '@material-ui/core/Select';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})(props => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles(theme => ({
+  root: {
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -80,9 +109,6 @@ const theme = createMuiTheme({
   },
 });
 
-
-
-
 class HomePageBase extends Component {
 
   
@@ -90,14 +116,20 @@ class HomePageBase extends Component {
     super(props);
     this.state = {
       data: [],
+      dataLength: 0,
       videoData: [],
       loading: false,
       localpantry: [],
       authUid: this.props.firebase.auth.O,
       pantryString: '',
-      filters: ''
+      filters: '',
+      setAnchorEl: null,
+      anchorEl: null
     };
+
+    this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.setFiberFilter = this.setFiberFilter.bind(this);
     this.setProteinFilter = this.setProteinFilter.bind(this);
     this.setGlutenFilter = this.setGlutenFilter.bind(this);
@@ -105,6 +137,15 @@ class HomePageBase extends Component {
     this.setKetoFilter = this.setKetoFilter.bind(this);
     this.resetFilters = this.resetFilters.bind(this);
   }
+
+  handleClick(event) {
+    this.state.setAnchorEl = event.currentTarget;
+  }
+  
+  handleClose() {
+    this.state.setAnchorEl = null;
+  }
+  
   
   goToPantry(){
     ReactDOM.render(<Pantry/>, document.getElementById("root"));
@@ -123,14 +164,15 @@ class HomePageBase extends Component {
       .then(json => this.setState({ data: json.hits }));
   }*/
 
-  handleClick() {
-    var attempts=0;
-    //while(this.state.data.length == 0 || attempts <= this.state.localpantry.length){
+  handleButtonClick() {
+  var attempts=0;
+  this.setState({dataLength: 0});
+   //while((this.state.dataLength == 0)){
     this.setPantryString(attempts);
-      fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10`)
-        .then(res => res.json())
-        .then(json => this.setState({ data: json.hits }));
-    attempts++;
+    fetch(`https://api.edamam.com/search?q=${this.state.pantryString}&app_id=87c18f5b&app_key=1ecd65def7f69302996bd63e58d89c50&from=0&to=10${this.state.filters}`)
+      .then(res => res.json())
+      .then(json => this.setState({ data: json.hits }))
+      .then(attempts++);
     //}
   }
   /*handleClick() {
@@ -218,40 +260,45 @@ class HomePageBase extends Component {
       <MuiThemeProvider theme={theme}>
       <div>
         {this.setPantryString()}
-        <div> Filters
-        <MenuItem onClick={this.resetFilters}>None</MenuItem>
-        <MenuItem onClick={this.setKetoFilter}>Keto Friendly</MenuItem> 
-        <MenuItem onClick={this.setGlutenFilter}>Gluten Free</MenuItem>
-        <MenuItem onClick={this.setPorkFilter}>Pork Free</MenuItem>
-        <MenuItem onClick={this.setFiberFilter}>High Fiber</MenuItem>
-        <MenuItem onClick={this.setProteinFilter}>High Protein</MenuItem>
-        </div>
+        <PopupState variant="popover" popupId="demo-popup-menu">
+          {popupState => (
+            <React.Fragment>
+              <Button variant="contained" {...bindTrigger(popupState)}>
+                Open Menu
+              </Button>
+              <Menu {...bindMenu(popupState)}>
+                <MenuItem onClick={popupState.close}>Close</MenuItem>
+                <StyledMenuItem onClick={this.resetFilters}>
+                  <ListItemText primary = "None"/>
+                </StyledMenuItem>
+                <StyledMenuItem onClick={this.setKetoFilter}>
+                  <ListItemText primary = "Keto Friendly"/>
+                </StyledMenuItem>
+                <StyledMenuItem onClick={this.setPorkFilter}>
+                  <ListItemText primary = "Pork Free"/>
+                </StyledMenuItem>
+                <StyledMenuItem onClick={this.setGlutenFilter}>
+                  <ListItemText primary = "Gluten Free"/>
+                </StyledMenuItem>
+                <StyledMenuItem onClick={this.setFiberFilter}>
+                  <ListItemText primary = "High Fiber"/>
+                </StyledMenuItem>
+                <StyledMenuItem onClick={this.setProteinFilter}>
+                  <ListItemText primary = "High Protein"/>
+                </StyledMenuItem>
+              </Menu>
+            </React.Fragment>
+          )}
+          </PopupState>
         <Button
           type="search"
           fullWidth
           variant="contained"
           color="primary"
-          onClick={this.handleClick}
+          onClick={this.handleButtonClick}
         >
             Search
         </Button>
-
-        <GridList cellHeight={180} className={useStyles.gridList}>
-        {this.state.data.map((item) => (
-          <GridListTile key={item.recipe.image}>
-            <img src={item.recipe.image} alt={item.recipe.label} />
-            <GridListTileBar
-              title={item.recipe.label}
-              actionIcon={
-                <IconButton className={useStyles.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-
         <List>
           {this.state.data.map((item) => {
                   return(
@@ -290,10 +337,6 @@ const HomePage = () => (
   
 );
 
-/*const HomePageList = compose(
-  withRouter,
-)(HomePageBase);
-*/
 const HomePageList = withFirebase(HomePageBase);
 
 const condition = authUser => !!authUser;
@@ -302,3 +345,56 @@ export default compose(
 
   withAuthorization(condition),
 )(HomePage);
+
+/*<div>
+      <Button
+        aria-owns={this.anchorEl ? 'simple-menu' : undefined}
+        aria-haspopup="true"
+        variant="contained"
+        color="primary"
+        onClick={this.handleClick}
+      >
+        Open Menu
+      </Button>
+      <StyledMenu
+        id="simple-menu"
+        anchorEl={this.anchorEl}
+        open={Boolean(this.anchorEl)}
+        onClose={this.handleClose()}
+      >
+          <StyledMenuItem onClick={this.resetFilters}>
+            <ListItemText primary = "None"/>
+          </StyledMenuItem>
+          <StyledMenuItem onClick={this.setKetoFilter}>
+            <ListItemText primary = "Keto Friendly"/>
+          </StyledMenuItem>
+          <StyledMenuItem onClick={this.setPorkFilter}>
+            <ListItemText primary = "Pork Free"/>
+          </StyledMenuItem>
+          <StyledMenuItem onClick={this.setGlutenFilter}>
+            <ListItemText primary = "Gluten Free"/>
+          </StyledMenuItem>
+          <StyledMenuItem onClick={this.setFiberFilter}>
+            <ListItemText primary = "High Fiber"/>
+          </StyledMenuItem>
+          <StyledMenuItem onClick={this.setProteinFilterxs}>
+            <ListItemText primary = "High Protein"/>
+          </StyledMenuItem>
+        </StyledMenu>
+        </div>*/
+
+{/*<GridList cellHeight={180} className={useStyles.gridList}>
+        {this.state.data.map((item) => (
+          <GridListTile key={item.recipe.image}>
+            <img src={item.recipe.image} alt={item.recipe.label} />
+            <GridListTileBar
+              title={item.recipe.label}
+              actionIcon={
+                <IconButton className={useStyles.icon}>
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </GridListTile>
+        ))}
+            </GridList>*/}
