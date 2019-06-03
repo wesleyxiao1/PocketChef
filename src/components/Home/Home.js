@@ -38,6 +38,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup'
 import Input from '@material-ui/core/Input';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FilledInput from '@material-ui/core/FilledInput';
@@ -47,6 +48,8 @@ import Select from '@material-ui/core/Select';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import ListSubheader from '@material-ui/core/ListSubheader';
+
+import FiltersGroup from '../Filters/filters.js'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -101,8 +104,6 @@ const theme = createMuiTheme({
 });
 
 
-
-
 class HomePageBase extends Component {
 
   constructor(props){
@@ -110,32 +111,24 @@ class HomePageBase extends Component {
     this.state = {
       data: [],
       videoData: [],
-      showPopup: false
+      showPopup: false,
+      showFilters: false,
+      highProteinFilter: false,
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleFilterClick = this.handleFilterClick.bind(this)
+    this.handleApplyClick = this.handleApplyClick.bind(this)
   }
   
   goToPantry(current){
     ReactDOM.render(<Pantry/>, document.getElementById("root"));
   }
 
-  /*handleClick() {
-    (async () => {
-      const recipes = await getRecipes()
-      console.log(recipes.data)
-    })()}
-  */
-
-  /*handleClick() {
-    fetch(`https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken`)
-      .then(res => res.json())
-      .then(json => this.setState({ data: json.hits }));
-  }*/
-
   handleClick() {
     fetch(`https://api.edamam.com/search?q=chicken&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=10&calories=59`)
       .then(res => res.json())
       .then(json => this.setState({ data: json.hits }));
+    console.log("after search clicked")
   }
   
   togglePopup() {  
@@ -143,11 +136,6 @@ class HomePageBase extends Component {
          showPopup: !this.state.showPopup  
     });  
   }
-  /*handleClick() {
-    fetch(`https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken`)
-      .then(res => res.json())
-      .then(json => this.setState({ data: json.recipes }));
-  }*/
 
   onTileTouch(name){
     //display the youtube API
@@ -155,88 +143,98 @@ class HomePageBase extends Component {
   
   addToFavourites(uri){
     //add the URI to the users favorites
-
   }
 
+  handleFilterClick() {
+    console.log("filter button clicked")
+    console.log(this.state.showFilters)
+    this.setState({
+      showFilters: true,
+    });
+  }
 
+  // need to press apply filter after selecting fitler in order 
+  // to edit filter again
+  handleApplyClick() {
+    console.log("filter apply button clicked")
+    this.setState({
+      showFilters: false,
+    });
+    this.handleClick()
+  }
 
-    /*axios.get('https://api.edamam.com/search?q=chicken&app_id=4863ac07&app_key=6e58a756abe12ad9122ba4525c78f6b9&from=0&to=3&calories=59')
-      //.then((data) => this.setState({results: data.hits[0].recipe.label}))
-      */
-  /*handleClick () {
-    axios.get('https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken')
-      .then(response => this.setState({recipeName: response.data.recipes[0].title}))
-  }*/
+  homeCallback = (dataFromFilters) => {
+    console.log("callback: " + dataFromFilters)
+    this.highProteinFilter = dataFromFilters
+  }
+
   render(){
     console.log("In Home render");
     return(
       <MuiThemeProvider theme={theme}>
-      <div>
+        <div>
+          <Button
+            type="search"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={this.handleFilterClick}> select filters </Button>
+            {this.state.showFilters ? 
+              <FiltersGroup callback={this.homeCallback} highProtein={this.highProteinFilter}/> : <div />
+            }
 
-        <FormControl variant="outlined" fullWidth className={useStyles.formControl}>
-          <FormLabel component="legend" align="center" fullWidth>Filters</FormLabel>
+          <Button
+            type="search"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={this.handleApplyClick}> apply filters </Button>
 
-            <Select
+          <Button
+            type="search"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={this.handleClick}> Search </Button>
 
-              input={<OutlinedInput  name="filter"  id="outlined-filter" />}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value=''>Filter1</MenuItem>
-              <MenuItem value=''>Filter2</MenuItem>
-              <MenuItem value=''>Filter3</MenuItem>
-            </Select>
-        </FormControl>
+          <GridList cellHeight={180} className={useStyles.gridList}>
+            {this.state.data.map((item,i) => (
+              <GridListTile key={item.recipe.image}>
+                <img src={item.recipe.image} alt={item.recipe.label} />
+                <GridListTileBar
+                  title={item.recipe.label}
+                  actionIcon={
+                    <IconButton className={useStyles.icon}>
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+              </GridListTile>
+            ))} 
+          </GridList>
 
-        <Button
-          type="search"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={this.handleClick}
-        >
-            Search
-        </Button>
-
-        <GridList cellHeight={180} className={useStyles.gridList}>
-        {this.state.data.map((item,i) => (
-          <GridListTile key={item.recipe.image}>
-            <img src={item.recipe.image} alt={item.recipe.label} />
-            <GridListTileBar
-              title={item.recipe.label}
-              actionIcon={
-                <IconButton className={useStyles.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-
-        <List>
-          {this.state.data.map((item, i) => {
-                  return(
-                    <ListItem>
-                        <Grid container>
-                          <Grid item xs={6}>
-                            <img src={item.recipe.image}/>
-                          </Grid>
-                          <Grid item xs={6} key={item.recipe.label}>
-                            <Link to={`/home/${item.recipe.label}`}>
-                              {item.recipe.label}
-                            </Link>   
-                          </Grid>
-                        </Grid> 
-                    </ListItem>
-                  );
-                })
-                }
-        </List>
+          <List>
+            {this.state.data.map((item, i) => {
+                    return(
+                      <ListItem>
+                          <Grid container>
+                            <Grid item xs={6}>
+                              <img src={item.recipe.image}/>
+                            </Grid>
+                            <Grid item xs={6} key={item.recipe.label}>
+                              <Link to={`/home/${item.recipe.label}`}>
+                                {item.recipe.label}
+                              </Link>   
+                            </Grid>
+                          </Grid> 
+                      </ListItem>
+                    );
+                  })
+                  }
+          </List>
 
 
-      </div>
+        </div>
       </MuiThemeProvider>
     )
   }

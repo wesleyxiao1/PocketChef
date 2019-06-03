@@ -17,13 +17,22 @@ const withEmailVerification = Component => {
 
       this.state = { isSent: false };
     }
-
+    
     onSendEmailVerification = () => {
       this.props.firebase
         .doSendEmailVerification()
         .then(() => this.setState({ isSent: true }));
     };
-
+    /*
+    onSendEmailVerification = () => {
+      var user = firebase.auth().currentUser;
+      user.sendEmailVerification().then(function() {
+        // email sent
+      }).catch(function(error) {
+        // an error happened
+      });
+    };
+    */
     render() {
       return (
         <AuthUserContext.Consumer>
