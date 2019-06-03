@@ -94,9 +94,16 @@ class HomePageBase extends Component {
       loading: false,
       localpantry: [],
       authUid: this.props.firebase.auth.O,
-      pantryString: ''
+      pantryString: '',
+      filters: ''
     };
     this.handleClick = this.handleClick.bind(this);
+    this.setFiberFilter = this.setFiberFilter.bind(this);
+    this.setProteinFilter = this.setProteinFilter.bind(this);
+    this.setGlutenFilter = this.setGlutenFilter.bind(this);
+    this.setPorkFilter = this.setPorkFilter.bind(this);
+    this.setKetoFilter = this.setKetoFilter.bind(this);
+    this.resetFilters = this.resetFilters.bind(this);
   }
   
   goToPantry(){
@@ -126,6 +133,11 @@ class HomePageBase extends Component {
     attempts++;
     //}
   }
+  /*handleClick() {
+    fetch(`http://www.recipepuppy.com/api/?i=${this.state.pantryString}`)
+        .then(res => res.json())
+        .then(json => this.setState({ data: json.hits }));
+  }*/
 
   setPantryString(attempts){
     var i;
@@ -137,6 +149,32 @@ class HomePageBase extends Component {
     }
     
   }
+  setKetoFilter(){
+    this.state.filters = '&health=keto-friendly';
+    console.log(this.state.filters);
+  }
+  setGlutenFilter(){
+    this.state.filters = '&health=gluten-free';
+    console.log(this.state.filters);
+  }
+  setPorkFilter(){
+    this.state.filters = '&health=pork-free';
+    console.log(this.state.filters);
+  }
+  setProteinFilter(){
+    this.state.filters = '&diet=high-protein';
+    console.log(this.state.filters);
+  }
+  setFiberFilter(){
+    this.state.filters = '&diet=high-fiber';
+    console.log(this.state.filters);
+  }
+
+  resetFilters(){
+    this.state.filters= '';
+    console.log(this.state.filters);
+  }
+  
 
   componentDidMount() {
     this.setState({ loading: true });
@@ -151,7 +189,7 @@ class HomePageBase extends Component {
         console.log(this.state.localpantry);
       });
     
-    this.setPantryString();
+    //this.setPantryString();
   }
 
   componentWillUnmount() {
@@ -173,28 +211,21 @@ class HomePageBase extends Component {
     axios.get('https://www.food2fork.com/api/search?key=65ab939ee06267a743713a544290c2a2&q=shredded%20chicken')
       .then(response => this.setState({recipeName: response.data.recipes[0].title}))
   }*/
-  render(){
 
+  render(){
     return(
+      
       <MuiThemeProvider theme={theme}>
       <div>
-
-        <FormControl variant="outlined" fullWidth className={useStyles.formControl}>
-          <FormLabel component="legend" align="center" fullWidth>Filters</FormLabel>
-
-            <Select
-
-              input={<OutlinedInput  name="filter"  id="outlined-filter" />}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value=''>Filter1</MenuItem>
-              <MenuItem value=''>Filter2</MenuItem>
-              <MenuItem value=''>Filter3</MenuItem>
-            </Select>
-        </FormControl>
-
+        {this.setPantryString()}
+        <div> Filters
+        <MenuItem onClick={this.resetFilters}>None</MenuItem>
+        <MenuItem onClick={this.setKetoFilter}>Keto Friendly</MenuItem> 
+        <MenuItem onClick={this.setGlutenFilter}>Gluten Free</MenuItem>
+        <MenuItem onClick={this.setPorkFilter}>Pork Free</MenuItem>
+        <MenuItem onClick={this.setFiberFilter}>High Fiber</MenuItem>
+        <MenuItem onClick={this.setProteinFilter}>High Protein</MenuItem>
+        </div>
         <Button
           type="search"
           fullWidth
